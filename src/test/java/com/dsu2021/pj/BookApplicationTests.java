@@ -1,4 +1,4 @@
-package ac.dongseo;
+package com.dsu2021.pj;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
