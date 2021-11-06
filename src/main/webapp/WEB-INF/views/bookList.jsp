@@ -7,21 +7,41 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>book list</title>
+<!-- 합쳐지고 최소화된 최신 CSS -->
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+
+<!-- 부가적인 테마 -->
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+
+<!-- 합쳐지고 최소화된 최신 자바스크립트 -->
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+<title>BookList</title>
 </head>
 <body>
-
-	<main>
-		<!-- 
-		전달하는 parameter : field, pattern, page
-		전달받는 parameter : field, pattern, page
+    <% String userId = (String)session.getAttribute("userid"); %>
+	<div align="center">
+    		<label>도서리스트</label>
+    </div>
+    <div class="page-header">
+   		<div class="form-group text-center">
+   			<h3>도서리스트</h3>
+   		</div>
+    </div>
 		
-		
-		 -->
-		
-		
-		<a href="login">login</a>
-		<a href="myPage">내 정보</a>
+	<div align="right">
+	<% if(userId == null){%>
+    				<span><a href="/">HOME</a></span>
+    				<span><a href="/signIn">로그인</a></span>
+    				<span><a href="/signUp">회원가입</a></span>
+    			<%}else{ %>
+    				<span><a href="/">HOME</a></span>
+    				<span><a href="/signOut">로그아웃</a></span>
+    				<span><a href="/myPage">내 정보</a>
+    			<%} %>
+	</div>
 		
 		<!-- 검색 -->
 		<form action="" method="get">
@@ -91,9 +111,6 @@
 		<c:if test="${page==pageCount}">
 		<span style="cursor:pointer;"onclick="alert('마지막 페이지 입니다.')">다음</span>
 		</c:if>
-		
-	
-	</main>
 	
 </body>
 </html>

@@ -18,7 +18,6 @@ public class UserController {
 	
 	
 	//단순 페이지 이동
-	
 	@GetMapping("/")
 	public String mainPage() {
 		return "bookList";
@@ -28,10 +27,20 @@ public class UserController {
 		public String registerPage() {
 		return "login";
 	}
-	
+
 	@GetMapping("signUp")
 	public String signUpPage() {
 		return "signUp";
+	}
+
+	@GetMapping("signIn")
+	public String signInPage() {
+		return "signIn";
+	}
+
+	@GetMapping("signOut")
+	public String signOutPage() {
+		return "signOut";
 	}
 	
 	@GetMapping("myPage")
