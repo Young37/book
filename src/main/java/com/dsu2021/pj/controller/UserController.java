@@ -1,84 +1,56 @@
 package com.dsu2021.pj.controller;
 
-
-
 import javax.servlet.http.HttpSession;
 
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
 import com.dsu2021.pj.dto.UserDTO;
-import com.dsu2021.pj.dto.UserDTO.SignUpRes;
-
-@Controller
+import com.dsu2021.pj.dto.UserDTO.SignUp;
+import com.dsu2021.pj.repository.UserMapper;
+@RequiredArgsConstructor
+@RestController
+@Slf4j
+//@org.springframework.stereotype.Controller
 public class UserController {
-	
-	
-	//단순 페이지 이동
-	@GetMapping("/")
-	public String mainPage() {
-		return "bookList";
-	}
-	
-	@GetMapping("login")
-		public String registerPage() {
-		return "login";
+
+	@Autowired
+	private UserMapper userMapper;
+
+	@PostMapping("signUp")//회원가입
+	public void signUp(@RequestBody UserDTO.SignUp signUp) {
+		userMapper.addUser(
+				new UserDTO.SignUp(null, signUp.getId(), signUp.getPassword(),signUp.getName(),signUp.getPhoneNum()));
 	}
 
-	@GetMapping("signUp")
-	public String signUpPage() {
-		return "signUp";
+	@PostMapping("signIn")//로그인
+	public void signInPage(HttpSession session, @RequestBody UserDTO.SignIn signIn) {
+		signIn = userMapper.signIn(signIn);
+
+//      일치하는 값이 없는 경우에 예외처리 필요
+		try {
+			signIn.setId(signIn.getId());
+			session.setAttribute("id", signIn.getId());
+		}catch (Exception e){
+			log.info("error 발생");
+		}
+
 	}
 
-	@GetMapping("signIn")
-	public String signInPage() {
-		return "signIn";
+	@GetMapping("signOut")//로그아웃
+	public void signOutPage(HttpSession session) {
+		session.invalidate();
 	}
 
-	@GetMapping("signOut")
-	public String signOutPage() {
-		return "signOut";
-	}
-	
 	@GetMapping("myPage")
 	public String myPage() {
 		return "myPage";
 	}
-	
-	
-	//요청 처리 + 페이지 이동
-	
-	@PostMapping("signUp")
-	public String signUp(UserDTO.SignUpReq req, UserDTO.SignUpRes res, HttpSession session) {
-		System.out.println("-------------------------");
-		System.out.println(req.getUserNum() == null);
-		System.out.println(req.getName() == null);
-		System.out.println(req.getId() == null);
-		System.out.println(req.getPassword() == null);
-		System.out.println("-------------------------");
-		System.out.println(req.getUserNum());
-		System.out.println(req.getName() == "");
-		System.out.println(req.getId() == "");
-		System.out.println(req.getPassword() == "");
-		
-		if(req.getUserNum() == null || req.getName() == null || req.getId() == null || req.getPassword() == null) {
-			
-			
-			
-			
-			res.setErrorMsg("필수 입력값을 채우지 않았습니다.");
-			return "signUp";
-		}
-		else if(req.getUserNum() <= 0 || req.getName() == "" || req.getId() == "" || req.getPassword() == "") {
-			res.setErrorMsg("유효하지 않은 입력값입니다.");
-			return "signUp";
-		}
-		
-		
-		session.setAttribute("id",req.getId());
-		return "login";
-	}
+
+
+
+
+
 }

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.dsu2021.pj.repository.UserMapper">
+
+<!--로그인 시 email과 password 조회-->
+    <select id="signIn" resultType="UserDTO">
+        SELECT id, password
+        FROM user
+        WHERE id = #{id}
+        AND password = #{password}
+    </select>
+
+    <insert id="addUser">
+        insert into user (id, password, name, phoneNum)
+        values (#{id}, #{password}, #{name}, #{phoneNum})
+    </insert>
+
+</mapper>

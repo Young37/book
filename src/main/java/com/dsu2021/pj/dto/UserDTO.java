@@ -19,24 +19,23 @@ public class UserDTO {
 	@Data
 	@NoArgsConstructor
 	@AllArgsConstructor
-	public static class SignUpReq{
+	public static class SignUp{//회원가입
 		//필수
 		private Long userNum ;
 		private String name;
 		private String id;
 		private String password;
-		//선택
-		private String defaultAddr;
-		private String detailAddr;
-		private String zipCode;
+		private int phoneNum;
 	}
-	
+
 	@Data
 	@NoArgsConstructor
 	@AllArgsConstructor
-	public static class SignUpRes{
-		private String errorMsg;
+	public static class SignIn {//로그인
+		private String id;
+		private String password;
 	}
+
 
 }
 	
