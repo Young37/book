@@ -26,6 +26,11 @@ public class UserController {
 		return "bookList";
 	}
 
+	@GetMapping("/signUp")
+	public String signUp() {
+		return "signUp";
+	}
+
 	@PostMapping("/signUp")//회원가입
 	public void signUp(@RequestBody UserDTO.SignUp signUp) {
 		userMapper.addUser(

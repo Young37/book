@@ -26,7 +26,7 @@
                 </div>
             </div>
             <div class="col-sm-6 col-md-offset-3">
-                <form role="form">
+                <form action= "singUp" method="post">
                     <div class="form-group">
                         <label>성명</label>
                         <input type="text" class="form-control" name = "userName" placeholder="이름을 입력해 주세요">
