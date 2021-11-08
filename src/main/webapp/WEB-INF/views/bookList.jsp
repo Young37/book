@@ -21,7 +21,9 @@
 		
 		
 		<a href="login">login</a>
+		<c:if test="${!empty sessionScope.id}">
 		<a href="myPage">내 정보</a>
+		</c:if>
 		
 		<!-- 검색 -->
 		<form action="" method="get">

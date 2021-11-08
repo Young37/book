@@ -34,6 +34,15 @@ public class UserDTO {
 	@Data
 	@NoArgsConstructor
 	@AllArgsConstructor
+	public static class SignInReq{
+		//필수
+		private String id;
+		private String password;
+	}
+	
+	@Data
+	@NoArgsConstructor
+	@AllArgsConstructor
 	public static class SignUpRes{
 		private String errorMsg;
 	}

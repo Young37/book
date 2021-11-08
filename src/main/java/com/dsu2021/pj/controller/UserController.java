@@ -4,6 +4,7 @@ package com.dsu2021.pj.controller;
 
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,9 +13,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import com.dsu2021.pj.dto.UserDTO;
 import com.dsu2021.pj.dto.UserDTO.SignUpRes;
+import com.dsu2021.pj.service.UserService;
 
 @Controller
 public class UserController {
+	
+	@Autowired
+	UserService service;
 	
 	
 	//단순 페이지 이동
@@ -35,8 +40,35 @@ public class UserController {
 	}
 	
 	@GetMapping("myPage")
-	public String myPage() {
+	public String myPage(HttpSession session) {
+		if(session.getAttribute("id") == null) {
+			return "bookList";
+		}
 		return "myPage";
+	}
+	
+	@GetMapping("admin")
+	public String adminPage (HttpSession session) {
+		if(!session.getAttribute("id").equals("admin")) {
+			return "login";
+		}
+		return "admin";
+	}
+	
+	@GetMapping("bookManage")
+	public String bookManage (HttpSession session) {
+		if(!session.getAttribute("id").equals("admin")) {
+			return "login";
+		}
+		return "bookManage";
+	}
+	
+	@GetMapping("userManage")
+	public String userManage (HttpSession session) {
+		if(!session.getAttribute("id").equals("admin")) {
+			return "login";
+		}
+		return "userManage";
 	}
 	
 	
@@ -68,14 +100,49 @@ public class UserController {
 			res.setErrorMsg("유효하지 않은 입력값입니다.");
 			return "signUp";
 		}
-		else if(
-				(req.getDefaultAddr() == "" && req.getDetailAddr() == "" && req.getZipCode() == "")
-				||
-				(!req.getDefaultAddr().equals("") && !req.getDetailAddr().equals("") && !req.getZipCode().equals(""))
-			)
+		else if((req.getDefaultAddr() == "" && req.getDetailAddr() == "" && req.getZipCode() == "")){
+			if(service.dupleCheckUser(req))
+			{
+				res.setErrorMsg("이미 있는 회원번호 또는 아이디입니다.");
+				return "signUp";
+			}
+			service.addUser(req);
+			session.setAttribute("id",req.getId());
+			return "login";
+		}
+		else if((!req.getDefaultAddr().equals("") && !req.getDetailAddr().equals("") && !req.getZipCode().equals(""))) {
+			if(service.dupleCheckUser(req))
+			{
+				res.setErrorMsg("이미 있는 회원번호 또는 아이디입니다.");
+				return "signUp";
+			}
+			service.addUser(req);
+			service.addAddress(req);
+			session.setAttribute("id",req.getId());
+			return "login";
+		}
+		else {
+			res.setErrorMsg("주소를 일부만 입력하셨습니다.");
+			return "signUp";
+		}
+	
+	}
+	
+	@PostMapping("signIn")
+	public String signIn(UserDTO.SignInReq req,HttpSession session) {
 		
+		if(service.validCheckUser(req)) {
+			session.setAttribute("id",req.getId());
+		}
 		
-		session.setAttribute("id",req.getId());
+		return "login";
+		
+	}
+	
+	@PostMapping("signOut")
+	public String signOut(HttpSession session) {
+		session.invalidate();
 		return "login";
 	}
+	
 }

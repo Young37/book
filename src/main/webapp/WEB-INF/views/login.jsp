@@ -23,7 +23,7 @@ a { text-decoration: none;}
 		<c:if test="${empty sessionScope.id}">
 			<br>
 			<span>로그인</span>
-			<form action="sign" method="post">
+			<form action="signIn" method="post">
 				<input type="text" name="id" ><br>
 				<input type="password" name="password"><br>
 				<input type="submit">
@@ -31,12 +31,12 @@ a { text-decoration: none;}
 		</c:if>
 		
 		<c:if test="${!empty sessionScope.id}">
-			<form action="sign" method="post"><input type="submit" name="logOut" value="logOut"></form>
+			<form action="signOut" method="post"><input type="submit" value="logOut"></form>
 			<span>접속 중 <span style="font-size:30px;color:green">${sessionScope.id}</span>님</span>
 		</c:if>
 		
 		<c:if test="${sessionScope.id.equals('admin') }">
-			<br><br><a href="" >관리 페이지</a>
+			<br><br><a href="admin" >관리 페이지</a>
 		</c:if>
 		
 	</main>

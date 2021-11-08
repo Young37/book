@@ -12,6 +12,8 @@ span {width:85px;display:inline-block}
 <body>
 	<nav><a href="login">돌아가기</a></nav>
 	
+
+	
 	${ signUpRes.errorMsg == null ? '':signUpRes.errorMsg }<br>
 	<form  action="signUp" method="post">
 		<span>회원번호 : </span><input type="number" name="userNum" placeholder="필수"><br>
@@ -24,6 +26,8 @@ span {width:85px;display:inline-block}
 		<span>상세주소 : </span><input type="text" name="detailAddr"><br>
 		<span>우편번호 : </span><input type="text" name="zipCode"><br>
 		<input type="submit">
+		
+		
 	</form>
 
 </body>

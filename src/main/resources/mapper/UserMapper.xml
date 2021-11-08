@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.dsu2021.pj.repository.UserMapper">
+
+	<!-- SELECT -->
+
+<!-- 	<resultMap type="com.dsu2021.pj.domain.room.dto.RoomDTO$RoomRes" id="roomResult">
+		<id property="roomIndex" column="room_index"></id>
+		<result property="userIndex" column="user_index"></result>
+		<result property="addressIndex" column="address_index"></result>
+		<result property="categoryIndex" column="category_index"></result>
+		<result property="name" column="name"></result>
+		<result property="price" column="price"></result>
+		<result property="cleanPrice" column="clean_price"></result>
+		<result property="maxPerson" column="max_person"></result>
+		<result property="content" column="content"></result>
+	</resultMap> -->
+	
+<!-- 	<select id = "getLatestRoomIndex" resultType="Long">
+ 		SELECT room_index FROM room WHERE
+		address_index = #{addressIndex} AND
+		category_index = #{categoryIndex} AND
+		user_index = #{userIndex} AND
+		name = #{name} AND
+		price = #{price} AND
+		clean_price = #{cleanPrice} AND
+		max_person = #{maxPerson} AND
+		content = #{content}
+		ORDER BY room_index DESC LIMIT 0,1;
+	</select>
+	
+	<select id = "getUnAvailableDatesByRoomIndex" resultType="Date">
+		SELECT date FROM unavailable_date WHERE room_index = #{roomIndex} ORDER BY date ASC;
+	</select> -->
+	
+	<select id = "selectUserByUserNumORID" resultType="com.dsu2021.pj.entity.User">
+		SELECT * FROM user WHERE user_num = #{user_num} OR id = #{id} ;
+	</select>
+	
+	<select id = "selectUserByIDAndPassword" resultType="com.dsu2021.pj.entity.User">
+		SELECT * FROM user WHERE id = #{id} AND password = #{password} ;
+	</select>
+
+	
+		<!-- INSERT -->
+
+	<insert id="insertUser">
+		INSERT INTO user VALUES (${user_num},#{name},#{id},#{password});
+	</insert>
+	
+	<insert id="insertAddress">
+		INSERT INTO address (user_num,zip_code,default_addr,detail_addr) VALUES (#{user_num},#{zip_code},#{default_addr},#{detail_addr});
+	</insert>
+		
+<!-- 		
+	<insert id = "insertAddress">
+		INSERT INTO room_address (si_do,si_gun_gu,eup_myeon_dong,road_name,detail_address)
+		VALUES (#{siDo},#{siGunGu},#{eupMyeonDong},#{roadName},#{detailAddress});
+	</insert>
+	
+	<insert id = "insertCategory">
+		INSERT INTO category (location,kind) VALUES (#{location},#{kind});
+	</insert>
+	
+	<insert id = "insertRoom">
+		INSERT INTO room 
+		(room_index,address_index,category_index,user_index,name,price,clean_price,max_person,content) 
+		VALUES (#{roomIndex},#{addressIndex},#{categoryIndex},#{userIndex},#{name},#{price},#{cleanPrice},#{maxPerson},#{content});
+	</insert>
+	
+	 -->
+		<!-- DELETE -->
+		
+<!-- 	<delete id = "deleteUnAvailableDateByRoomIndex">
+		DELETE FROM unavailable_date WHERE room_index = #{roomIndex};
+	</delete>
+	
+	<delete id = "deleteUnAvailableDateByRoomIndexAndInputDate">
+		DELETE FROM unavailable_date WHERE room_index = #{roomIndex} AND date = #{inputDate};
+	</delete> -->
+
+</mapper>
