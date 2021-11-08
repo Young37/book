@@ -15,6 +15,8 @@ public interface UserMapper {
 	public void insertUser(User user);
 	
 	public void insertAddress(Address address);
+	
+	public void insertBook(Book book);
 
 // READ
 	public User[] selectUserByUserNumORID(User user);

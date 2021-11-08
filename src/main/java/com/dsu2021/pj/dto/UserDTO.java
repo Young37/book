@@ -16,14 +16,21 @@ public class UserDTO {
 	
 	private String test;
 	
-	
-
 
 	@Data
 	@NoArgsConstructor
 	@AllArgsConstructor
 	public static class ModifyBookReq{
 		private Long book_num;
+		private String book_name;
+		private Integer book_stock;
+		private Integer book_price;
+	}
+	
+	@Data
+	@NoArgsConstructor
+	@AllArgsConstructor
+	public static class AddBookReq{
 		private String book_name;
 		private Integer book_stock;
 		private Integer book_price;

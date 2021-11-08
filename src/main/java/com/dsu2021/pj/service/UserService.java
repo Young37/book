@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.dsu2021.pj.dto.UserDTO;
+import com.dsu2021.pj.dto.UserDTO.AddBookReq;
 import com.dsu2021.pj.dto.UserDTO.ModifyBookReq;
 import com.dsu2021.pj.dto.UserDTO.SignInReq;
 import com.dsu2021.pj.dto.UserDTO.SignUpReq;
@@ -62,5 +63,8 @@ public class UserService {
 	public void modifyBook(ModifyBookReq req) {
 		userMapper.modifyBook(new Book(req.getBook_num(),req.getBook_name(),req.getBook_stock(),req.getBook_price()));
 	}
-
+	
+	public void addBook(AddBookReq req) {
+		userMapper.insertBook(new Book(null,req.getBook_name(),req.getBook_stock(),req.getBook_price()));
+	}
 }

@@ -15,7 +15,7 @@ a { text-decoration: none;}
 
 	<aside>
 			<nav><a href="login">돌아가기</a></nav>
-			<nav><a href="bookManage">책 관리</a></nav>
+			<nav><a href="addBook">책 추가</a></nav>
 			<nav><a href="userManage">회원 관리</a></nav>
 	</aside>
 

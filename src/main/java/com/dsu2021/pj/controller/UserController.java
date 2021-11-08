@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import com.dsu2021.pj.dto.UserDTO;
+import com.dsu2021.pj.dto.UserDTO.AddBookReq;
 import com.dsu2021.pj.dto.UserDTO.ModifyBookReq;
 import com.dsu2021.pj.dto.UserDTO.SignUpRes;
 import com.dsu2021.pj.service.UserService;
@@ -98,6 +99,15 @@ public class UserController {
 		return "userManage";
 	}
 	
+	@GetMapping("addBook")
+	public String addBookPage (HttpSession session, Model model) {
+		if(!session.getAttribute("id").equals("admin")) {
+			model.addAttribute("list",service.getBookList(""));
+			model.addAttribute("book_name","");
+			return "bookList";
+		}
+		return "addBook";
+	}
 	
 	
 	//요청 처리 + 페이지 이동
@@ -201,6 +211,22 @@ public class UserController {
 		model.addAttribute("list",service.getBookList(""));
 		model.addAttribute("book_name","");
 		return "bookList";
+	}
+	
+	@PostMapping("addBook")
+	public String addBook(AddBookReq req,HttpSession session,Model model) {
+		if(!session.getAttribute("id").equals("admin")) {
+			model.addAttribute("list",service.getBookList(""));
+			model.addAttribute("book_name","");
+			return "bookList";
+		}
+		
+		service.addBook(req);
+		
+
+		model.addAttribute("list",service.getBookList(""));
+		model.addAttribute("book_name","");
+		return "addBook";
 	}
 	
 }

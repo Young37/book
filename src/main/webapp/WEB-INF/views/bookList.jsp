@@ -56,6 +56,10 @@
 		
 		<!-- 페이징 -->
 		
+		<c:if test="${sessionScope.id.equals('admin') }">
+			<br><br><a href="addBook">책 추가하기</a>
+		</c:if>
+		
 		<c:set var="page" value="${ empty param.page ? 1 : param.page }"/>
 		<c:set var="startNum" value="${page-(page-1)%10}" />
 		
