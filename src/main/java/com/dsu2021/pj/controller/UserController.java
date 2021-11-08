@@ -109,6 +109,18 @@ public class UserController {
 		return "addBook";
 	}
 	
+	@GetMapping("cart")
+	public String cart (HttpSession session, Model model) {
+		if(session.getAttribute("id") == null) {
+			model.addAttribute("list",service.getBookList(""));
+			model.addAttribute("book_name","");
+			return "bookList";
+		}
+		
+		
+		return "cart";
+	}
+	
 	
 	//요청 처리 + 페이지 이동
 	
@@ -237,13 +249,13 @@ public class UserController {
 			return "bookList";
 		}
 		
-		
-		
 		service.addToCart(book_num,book_basket_amount,(String)session.getAttribute("id"));
 		model.addAttribute("list",service.getBookList(""));
 		model.addAttribute("book_name","");
 		return "bookList";
 	}
+	
+	
 	
 	
 	

@@ -36,23 +36,30 @@
 		
 		<!-- 목록 -->
 		
-		<table style="width:70%;border:1px solid black;text-align:center">
-			<thead>
-				<tr>
-					<th>도서번호</th><th>도서명</th><th>재고량</th><th>판매가</th>
-				</tr>
-			</thead>
-			<tbody>
-				<c:forEach var="li" items="${list}">
-				<tr>
-					<td>${li.book_num}</td>
-					<td><a href="detail?book_num=${li.book_num}">${li.book_name}</a></td>
-					<td>${li.book_stock}</td>
-					<td>${li.book_price}</td>
-				</tr>
-				</c:forEach>
-			</tbody>
-		</table>
+		<form action="" method="post">
+		
+			<table style="width:70%;border:1px solid black;text-align:center">
+				<thead>
+					<tr>
+						<th></th><th>도서번호</th><th>도서명</th><th>재고량</th><th>판매가</th>
+					</tr>
+				</thead>
+				<tbody>
+					<c:forEach var="li" items="${list}">
+					<tr>
+						<td><input type="checkbox"></td>
+						<td>${li.book_num}</td>
+						<td><a href="detail?book_num=${li.book_num}">${li.book_name}</a></td>
+						<td>${li.book_stock}</td>
+						<td>${li.book_price}</td>
+					</tr>
+					</c:forEach>
+				</tbody>
+			</table>
+			
+			<input type="submit" value="바로 구매">
+		
+		</form>
 		
 		<!-- 페이징 -->
 		

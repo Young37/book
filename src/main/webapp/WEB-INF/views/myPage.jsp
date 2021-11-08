@@ -14,7 +14,7 @@
 	</c:if>
 	<nav><a href="">주소 보기</a></nav>
 	<nav><a href="/">카드 보기</a></nav>
-	<nav><a href="/">장바구니 보기</a></nav>
+	<nav><a href="cart">장바구니 보기</a></nav>
 	<nav><a href="/">주문 내역 보기</a></nav>
 	
 </body>

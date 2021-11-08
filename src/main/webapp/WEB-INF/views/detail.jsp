@@ -32,15 +32,6 @@
 		</form>
 		</c:if>
 		
-		<c:if test="${!sessionScope.id != null }">
-		<form style="display:inline" action="buy" method="post" >
-			<input type="hidden" name="book_num" value="${book.book_num}">
-			<input type="hidden" name="book_stock" value="${book.book_stock}">
-			<input type="number" name="book_order_amount">
-			<input type="submit" value="바로 구매">
-		</form>
-		</c:if>
-		
 		<br>
 		<c:if test="${sessionScope.id == 'admin' }">
 		<form style="display:inline" action="modifyBook" method="get" >
