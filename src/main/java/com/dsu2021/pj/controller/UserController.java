@@ -239,12 +239,10 @@ public class UserController {
 		
 		
 		
-		service.addToCart(book_num,book_basket_amount,()session.getAttribute("id"));
-		
-
+		service.addToCart(book_num,book_basket_amount,(String)session.getAttribute("id"));
 		model.addAttribute("list",service.getBookList(""));
 		model.addAttribute("book_name","");
-		return "addBook";
+		return "bookList";
 	}
 	
 	

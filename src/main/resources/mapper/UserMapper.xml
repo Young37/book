@@ -82,6 +82,10 @@
 	<insert id="createCart">
 		INSERT INTO cart (user_num) VALUES (#{user_num});
 	</insert>
+	
+	<insert id="addToCart">
+		INSERT INTO book_cart (book_num, basket_num, book_basket_amount, book_basket_price) VALUES (#{book_num},#{basket_num},#{book_basket_amount},#{book_basket_price});
+	</insert>
 		
 <!-- 		
 	<insert id = "insertAddress">
