@@ -5,6 +5,8 @@ import org.springframework.stereotype.Repository;
 
 import com.dsu2021.pj.entity.Address;
 import com.dsu2021.pj.entity.Book;
+import com.dsu2021.pj.entity.BookCart;
+import com.dsu2021.pj.entity.Cart;
 import com.dsu2021.pj.entity.User;
 
 @Mapper
@@ -17,6 +19,8 @@ public interface UserMapper {
 	public void insertAddress(Address address);
 	
 	public void insertBook(Book book);
+	
+	public void addToCart(BookCart bookCart);
 
 // READ
 	public User[] selectUserByUserNumORID(User user);
@@ -27,12 +31,17 @@ public interface UserMapper {
 	
 	public Book getBookByBookNum(String book_num);
 	
+	public User getUserById(String id);
+	
+	public Cart getCart(Long user_num);
+	
+	public Cart createCart(Long user_num);
+
+	public Integer checkBookPriceWithBookNum(String book_num);
 	
 // PATCH
 	
 	public void modifyBook(Book book);
-	
-	
 	
 // PUT
 	

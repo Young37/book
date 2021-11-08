@@ -7,10 +7,10 @@ import lombok.Getter;
 
 @AllArgsConstructor
 @Getter
-public class BookOrder {
-	private Long book_order_num;
-	private Long order_num;
+public class BookCart {
+	private Long book_basket_num;
 	private Long book_num;
-	private Integer book_order_amount;
-	private Integer book_order_price;
+	private Long basket_num;
+	private Integer book_basket_amount;
+	private Integer book_basket_price;
 }

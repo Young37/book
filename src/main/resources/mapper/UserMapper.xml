@@ -53,6 +53,18 @@
 	<select id = "getBookByBookNum" resultType="com.dsu2021.pj.entity.Book">
 		SELECT * FROM book WHERE book_num = #{book_num};
 	</select>
+	
+	<select id = "getUserById" resultType="com.dsu2021.pj.entity.User">
+		SELECT * FROM user WHERE id = #{id};
+	</select>
+	
+	<select id = "getCart" resultType="com.dsu2021.pj.entity.Cart">
+		SELECT * FROM cart WHERE user_num = #{user_num};
+	</select>
+	
+	<select id = "checkBookPriceWithBookNum" resultType="Integer">
+		SELECT book_price FROM book WHERE book_num = #{book_num};
+	</select>
 		<!-- INSERT -->
 
 	<insert id="insertUser">
@@ -65,6 +77,10 @@
 	
 	<insert id="insertBook">
 		INSERT INTO book (book_name,book_stock,book_price) VALUES (#{book_name},#{book_stock},#{book_price});
+	</insert>
+	
+	<insert id="createCart">
+		INSERT INTO cart (user_num) VALUES (#{user_num});
 	</insert>
 		
 <!-- 		

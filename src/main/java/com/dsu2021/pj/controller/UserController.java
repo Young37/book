@@ -229,4 +229,25 @@ public class UserController {
 		return "addBook";
 	}
 	
+	@PostMapping("addToCart")
+	public String addToCart(String book_num, Integer book_basket_amount,Integer book_stock,HttpSession session,Model model,SignUpRes res) {
+		if(session.getAttribute("id") == null || book_basket_amount > book_stock || book_stock == 0) {
+			model.addAttribute("list",service.getBookList(""));
+			model.addAttribute("book_name","");
+			return "bookList";
+		}
+		
+		
+		
+		service.addToCart(book_num,book_basket_amount,()session.getAttribute("id"));
+		
+
+		model.addAttribute("list",service.getBookList(""));
+		model.addAttribute("book_name","");
+		return "addBook";
+	}
+	
+	
+	
+	
 }

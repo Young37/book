@@ -10,6 +10,8 @@ import com.dsu2021.pj.dto.UserDTO.SignInReq;
 import com.dsu2021.pj.dto.UserDTO.SignUpReq;
 import com.dsu2021.pj.entity.Address;
 import com.dsu2021.pj.entity.Book;
+import com.dsu2021.pj.entity.BookCart;
+import com.dsu2021.pj.entity.Cart;
 import com.dsu2021.pj.entity.User;
 import com.dsu2021.pj.repository.UserMapper;
 
@@ -66,5 +68,21 @@ public class UserService {
 	
 	public void addBook(AddBookReq req) {
 		userMapper.insertBook(new Book(null,req.getBook_name(),req.getBook_stock(),req.getBook_price()));
+	}
+	
+	public void addToCart(String book_num,Integer book_basket_amount, String id) {
+		
+		User user = userMapper.getUserById(id);
+		
+		Cart cart = userMapper.getCart(user.getUser_num());
+		
+		if( cart == null) {
+			userMapper.createCart(user.getUser_num());
+			cart = userMapper.getCart(user.getUser_num());
+		}
+		
+		Integer price = userMapper.checkBookPriceWithBookNum(book_num);
+		
+		userMapper.addToCart(new BookCart(null,Long.parseLong(book_num), cart.getBasket_num(),book_basket_amount,price*book_basket_amount));
 	}
 }
