@@ -44,6 +44,11 @@
 	<select id = "selectUserByIDAndPassword" resultType="com.dsu2021.pj.entity.User">
 		SELECT * FROM user WHERE id = #{id} AND password = #{password} ;
 	</select>
+	
+	
+	<select id = "getBookList" resultType="com.dsu2021.pj.entity.Book">
+		SELECT * FROM book WHERE book_name LIKE '%${book_name}%';
+	</select>
 
 	
 		<!-- INSERT -->

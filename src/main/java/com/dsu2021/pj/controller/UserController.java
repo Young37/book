@@ -1,16 +1,12 @@
 package com.dsu2021.pj.controller;
 
-
-
 import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-
 import com.dsu2021.pj.dto.UserDTO;
 import com.dsu2021.pj.dto.UserDTO.SignUpRes;
 import com.dsu2021.pj.service.UserService;
@@ -25,7 +21,9 @@ public class UserController {
 	//단순 페이지 이동
 	
 	@GetMapping("/")
-	public String mainPage() {
+	public String mainPage(String book_name ,Model model) {
+		model.addAttribute("list",service.getBookList(book_name));
+		model.addAttribute("book_name",book_name);
 		return "bookList";
 	}
 	
@@ -45,6 +43,18 @@ public class UserController {
 			return "bookList";
 		}
 		return "myPage";
+	}
+	
+	@GetMapping("detail")
+	public String detail(String book_num,HttpSession session, Model model) {
+		if(session.getAttribute("id") == null) {
+			return "bookList";
+		}
+		
+		
+		model.addAttribute("book_num",service.getBookByBookNum(book_num));
+		
+		return "detail";
 	}
 	
 	@GetMapping("admin")
@@ -70,6 +80,7 @@ public class UserController {
 		}
 		return "userManage";
 	}
+	
 	
 	
 	//요청 처리 + 페이지 이동

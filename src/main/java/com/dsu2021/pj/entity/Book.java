@@ -8,7 +8,8 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 public class Book {
-
-	
-
+	private Long book_num;
+	private String book_name;
+	private Integer book_stock;
+	private Integer book_price;
 }

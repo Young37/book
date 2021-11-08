@@ -30,7 +30,7 @@
 			<select name="field">
 				<option value="writer_name">도서명</option>
 			</select>
-			<input type="text" name="pattern" value="${param.pattern}">
+			<input type="text" name="book_name" value="${book_name}">
 			<input type="submit" value = "검색">
 		</form>
 		
@@ -45,11 +45,10 @@
 			<tbody>
 				<c:forEach var="li" items="${list}">
 				<tr>
-					<td>${li.id}</td>
-					<td>${li.writerName}</td>
-					<td><a href="list/detail?id=${li.id}">${li.title}</a>&nbsp[${li.cmtCount}]</td>
-					<td>${li.hit}</td>
-					<td><fmt:formatDate pattern="yyyy.MM.dd" value="${li.regdate}"/></td>
+					<td>${li.book_num}</td>
+					<td><a href="detail?book_num=${li.book_num}">${li.book_name}</a></td>
+					<td>${li.book_stock}</td>
+					<td>${li.book_price}</td>
 				</tr>
 				</c:forEach>
 			</tbody>

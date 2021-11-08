@@ -4,9 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.dsu2021.pj.dto.UserDTO;
+
 import com.dsu2021.pj.dto.UserDTO.SignInReq;
 import com.dsu2021.pj.dto.UserDTO.SignUpReq;
 import com.dsu2021.pj.entity.Address;
+import com.dsu2021.pj.entity.Book;
 import com.dsu2021.pj.entity.User;
 import com.dsu2021.pj.repository.UserMapper;
 
@@ -43,6 +45,10 @@ public class UserService {
 		}
 	}
 
+	public Book[] getBookList(String book_name) {
+		Book[] bookList = userMapper.getBookList(book_name);
+		return bookList;
+	}
 	
 
 }
