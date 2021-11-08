@@ -80,7 +80,20 @@
 	</insert>
 	
 	 -->
+	 
+	 <!-- UPDATE -->
+	 
+	 <update id="modifyBook">
+	 	UPDATE book SET book_name = #{book_name} ,book_stock = #{book_stock},book_price = #{book_price} WHERE book_num = #{book_num};
+	 </update>
+	 
+	 
+	 
 		<!-- DELETE -->
+		
+		<delete id = "deleteBookByBookNum">
+			DELETE FROM book WHERE book_num = #{book_num};
+		</delete>
 		
 <!-- 	<delete id = "deleteUnAvailableDateByRoomIndex">
 		DELETE FROM unavailable_date WHERE room_index = #{roomIndex};

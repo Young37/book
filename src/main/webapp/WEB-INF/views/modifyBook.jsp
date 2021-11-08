@@ -14,15 +14,16 @@
 	</nav>
 	<br><br>
 	<main>
-		도서번호 : ${book.book_num}<br>
-		도서명 : ${book.book_name}<br>
-		재고량 : ${book.book_stock}<br>
-		판매가 : ${book.book_price}<br>
+		
 
 		<br>
 		<c:if test="${sessionScope.id == 'admin' }">
-		<form style="display:inline" action="modifyBook" method="get" >
+		<form style="display:inline" action="modifyBook" method="post" >
 			<input type="hidden" name="book_num" value="${book.book_num}">
+			도서번호 : ${book.book_num}<br>
+			도서명 : <input type="text" name="book_name" value="${book.book_name}"><br>
+			재고량 : <input type="text" name="book_stock" value="${book.book_stock}"><br>
+			판매가 : <input type="text" name="book_price" value=" ${book.book_price}"><br>
 			<input type="submit" value="책 정보 수정">
 		</form>
 		</c:if>

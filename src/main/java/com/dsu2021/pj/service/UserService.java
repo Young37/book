@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.dsu2021.pj.dto.UserDTO;
-
+import com.dsu2021.pj.dto.UserDTO.ModifyBookReq;
 import com.dsu2021.pj.dto.UserDTO.SignInReq;
 import com.dsu2021.pj.dto.UserDTO.SignUpReq;
 import com.dsu2021.pj.entity.Address;
@@ -55,5 +55,12 @@ public class UserService {
 		return book;
 	}
 	
+	public void deleteBookByBookNum(String book_num) {
+		userMapper.deleteBookByBookNum(book_num);
+	}
+	
+	public void modifyBook(ModifyBookReq req) {
+		userMapper.modifyBook(new Book(req.getBook_num(),req.getBook_name(),req.getBook_stock(),req.getBook_price()));
+	}
 
 }

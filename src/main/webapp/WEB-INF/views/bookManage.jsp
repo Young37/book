@@ -11,7 +11,7 @@
 		<a href="admin">나가기</a>
 	</nav>
 	<main>
-		<form action="write" method="post"><br>
+		<form action="addBook" method="post"><br>
 		<span>제목</span>
 		<input style="width:256px;" type="text" name="title"><br><br>
 		<textarea style="resize:none" rows="30" cols="40" name="content"></textarea>

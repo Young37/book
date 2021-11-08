@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import com.dsu2021.pj.dto.UserDTO;
+import com.dsu2021.pj.dto.UserDTO.ModifyBookReq;
 import com.dsu2021.pj.dto.UserDTO.SignUpRes;
 import com.dsu2021.pj.service.UserService;
 
@@ -46,8 +47,10 @@ public class UserController {
 	}
 	
 	@GetMapping("detail")
-	public String detail(String book_num,HttpSession session, Model model) {
+	public String detailPage(String book_num,HttpSession session, Model model) {
 		if(session.getAttribute("id") == null) {
+			model.addAttribute("list",service.getBookList(""));
+			model.addAttribute("book_name","");
 			return "bookList";
 		}
 		
@@ -56,6 +59,20 @@ public class UserController {
 		
 		return "detail";
 	}
+	
+	@GetMapping("modifyBook")
+	public String modifyBookPage(String book_num,HttpSession session, Model model) {
+		if(!session.getAttribute("id").equals("admin")) {
+			model.addAttribute("list",service.getBookList(""));
+			model.addAttribute("book_name","");
+			return "bookList";
+		}
+		
+		model.addAttribute("book",service.getBookByBookNum(book_num));
+		
+		return "modifyBook";
+	}
+	
 	
 	@GetMapping("admin")
 	public String adminPage (HttpSession session) {
@@ -154,6 +171,36 @@ public class UserController {
 	public String signOut(HttpSession session) {
 		session.invalidate();
 		return "login";
+	}
+	
+	@PostMapping("deleteBook")
+	public String deleteBook(String book_num,HttpSession session,Model model) {
+		if(!session.getAttribute("id").equals("admin")) {
+			model.addAttribute("list",service.getBookList(""));
+			model.addAttribute("book_name","");
+			return "bookList";
+		}
+		
+		
+		service.deleteBookByBookNum(book_num);
+		model.addAttribute("list",service.getBookList(""));
+		model.addAttribute("book_name","");
+		return "bookList";
+	}
+	
+	@PostMapping("modifyBook")
+	public String modifyBook(ModifyBookReq req,HttpSession session,Model model) {
+		if(!session.getAttribute("id").equals("admin")) {
+			model.addAttribute("list",service.getBookList(""));
+			model.addAttribute("book_name","");
+			return "bookList";
+		}
+		
+		service.modifyBook(req);
+
+		model.addAttribute("list",service.getBookList(""));
+		model.addAttribute("book_name","");
+		return "bookList";
 	}
 	
 }

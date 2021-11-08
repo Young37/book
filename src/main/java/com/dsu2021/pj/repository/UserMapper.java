@@ -27,12 +27,15 @@ public interface UserMapper {
 	
 	
 // PATCH
-
+	
+	public void modifyBook(Book book);
+	
+	
 	
 // PUT
 	
 	
 // DELETE
 	
-	
+	public void deleteBookByBookNum(String book_num);
 }
