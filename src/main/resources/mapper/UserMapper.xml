@@ -7,7 +7,7 @@
 <mapper namespace="com.dsu2021.pj.repository.UserMapper">
 
 <!--로그인 시 email과 password 조회-->
-    <select id="signIn" resultType="UserDTO">
+    <select id="signIn" resultType="com.dsu2021.pj.dto.UserDTO$SignIn">
         SELECT id, password
         FROM user
         WHERE id = #{id}
