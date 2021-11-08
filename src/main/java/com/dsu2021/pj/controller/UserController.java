@@ -52,7 +52,7 @@ public class UserController {
 		}
 		
 		
-		model.addAttribute("book_num",service.getBookByBookNum(book_num));
+		model.addAttribute("book",service.getBookByBookNum(book_num));
 		
 		return "detail";
 	}
