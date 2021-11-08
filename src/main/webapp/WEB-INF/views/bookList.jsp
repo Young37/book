@@ -21,6 +21,7 @@
 <title>BookList</title>
 </head>
 <body>
+<<<<<<< HEAD
     <% String userId = (String)session.getAttribute("userid"); %>
 	<div align="center">
     		<label>도서리스트</label>
@@ -42,13 +43,29 @@
     				<span><a href="/myPage">내 정보</a>
     			<%} %>
 	</div>
+=======
+
+	<main>
+		<!-- 
+		전달하는 parameter : field, pattern, page
+		전달받는 parameter : field, pattern, page
+		
+		
+		 -->
+		
+		
+		<a href="login">login</a>
+		<c:if test="${!empty sessionScope.id}">
+		<a href="myPage">내 정보</a>
+		</c:if>
+>>>>>>> 88c527912bb93ef818e9537691451fd496ad2cdd
 		
 		<!-- 검색 -->
 		<form action="" method="get">
 			<select name="field">
 				<option value="writer_name">도서명</option>
 			</select>
-			<input type="text" name="pattern" value="${param.pattern}">
+			<input type="text" name="book_name" value="${book_name}">
 			<input type="submit" value = "검색">
 		</form>
 		
@@ -63,11 +80,10 @@
 			<tbody>
 				<c:forEach var="li" items="${list}">
 				<tr>
-					<td>${li.id}</td>
-					<td>${li.writerName}</td>
-					<td><a href="list/detail?id=${li.id}">${li.title}</a>&nbsp[${li.cmtCount}]</td>
-					<td>${li.hit}</td>
-					<td><fmt:formatDate pattern="yyyy.MM.dd" value="${li.regdate}"/></td>
+					<td>${li.book_num}</td>
+					<td><a href="detail?book_num=${li.book_num}">${li.book_name}</a></td>
+					<td>${li.book_stock}</td>
+					<td>${li.book_price}</td>
 				</tr>
 				</c:forEach>
 			</tbody>

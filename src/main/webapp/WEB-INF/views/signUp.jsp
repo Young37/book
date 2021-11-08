@@ -15,6 +15,7 @@
 <title>UserSignUp</title>
 </head>
 <body>
+<<<<<<< HEAD
 	<div align="center">
 		<label>회원가입</label>
 	</div>
@@ -55,6 +56,27 @@
                     <div class="form-group text-center">
                     	<a href="/">HOME</a>
            			</div>
+=======
+	<nav><a href="login">돌아가기</a></nav>
+	
+
+	
+	${ signUpRes.errorMsg == null ? '':signUpRes.errorMsg }<br>
+	<form  action="signUp" method="post">
+		<span>회원번호 : </span><input type="number" name="userNum" placeholder="필수"><br>
+		<span>이름 : </span><input type="text" name="name" placeholder="필수"><br>
+		<span>아이디 : </span><input type="text" name="id" placeholder="필수"><br>
+		<span>비밀번호 : </span><input type="password" name="password" placeholder="필수"><br>
+		
+		선택<br>
+		<span>기본주소 : </span><input type="text" name="defaultAddr"><br>
+		<span>상세주소 : </span><input type="text" name="detailAddr"><br>
+		<span>우편번호 : </span><input type="text" name="zipCode"><br>
+		<input type="submit">
+		
+		
+	</form>
+>>>>>>> 88c527912bb93ef818e9537691451fd496ad2cdd
 
 
 		<!-- <div>
