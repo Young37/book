@@ -49,8 +49,10 @@
 	<select id = "getBookList" resultType="com.dsu2021.pj.entity.Book">
 		SELECT * FROM book WHERE book_name LIKE '%${book_name}%';
 	</select>
-
 	
+	<select id = "getBookByBookNum" resultType="com.dsu2021.pj.entity.Book">
+		SELECT * FROM book WHERE book_num = #{book_num};
+	</select>
 		<!-- INSERT -->
 
 	<insert id="insertUser">

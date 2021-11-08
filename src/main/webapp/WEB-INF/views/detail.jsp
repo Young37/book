@@ -14,9 +14,9 @@
 	</nav>
 	<br><br>
 	<main>
-		도서번호 : ${list.title}<br>
+		도서번호 : ${}<br>
 		도서명 : ${list.writerName}<br>
-		재고량 : <fmt:formatDate pattern="yyyy년 MM월 dd일 HH:mm:ss" value="${list.regdate}"/><br>
+		재고량 : #{}<br>
 		<c:if test="${list.modifyDate!=null}">
 		판매가 : <fmt:formatDate pattern="yyyy년 MM월 dd일 HH:mm:ss" value="${list.modifyDate}"/><br>
 		</c:if>

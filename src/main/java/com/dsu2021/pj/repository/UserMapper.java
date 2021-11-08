@@ -23,6 +23,9 @@ public interface UserMapper {
 	
 	public Book[] getBookList(String book_name);
 	
+	public Book getBookByBookNum(String book_num);
+	
+	
 // PATCH
 
 	

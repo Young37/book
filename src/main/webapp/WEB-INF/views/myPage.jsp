@@ -12,6 +12,9 @@
 	<c:if test="${empty sessionScope.id}">
 		${sessionScope.id}님
 	</c:if>
-	주소 추가<br>카드 추가
+	<nav><a href="/">주소 추가</a></nav>
+	<br>
+	<nav><a href="/">카드 추가</a></nav>
+	
 </body>
 </html>

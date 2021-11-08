@@ -50,5 +50,10 @@ public class UserService {
 		return bookList;
 	}
 	
+	public Book getBookByBookNum(String book_num) {
+		Book book = userMapper.getBookByBookNum(book_num);
+		return book;
+	}
+	
 
 }
