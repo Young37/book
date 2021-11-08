@@ -62,6 +62,10 @@
 	<insert id="insertAddress">
 		INSERT INTO address (user_num,zip_code,default_addr,detail_addr) VALUES (#{user_num},#{zip_code},#{default_addr},#{detail_addr});
 	</insert>
+	
+	<insert id="insertBook">
+		INSERT INTO book (book_name,book_stock,book_price) VALUES (#{book_name},#{book_stock},#{book_price});
+	</insert>
 		
 <!-- 		
 	<insert id = "insertAddress">

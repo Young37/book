@@ -15,6 +15,8 @@
 	<nav><a href="">주소 추가</a></nav>
 	<br>
 	<nav><a href="/">카드 추가</a></nav>
+	<br>
+	<nav><a href="/">장바구니 보기</a></nav>
 	
 </body>
 </html>

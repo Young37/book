@@ -13,12 +13,24 @@
 		<a href="/">목록</a>
 	</nav>
 	<br><br>
+	
+	
+	
 	<main>
 		도서번호 : ${book.book_num}<br>
 		도서명 : ${book.book_name}<br>
 		재고량 : ${book.book_stock}<br>
 		판매가 : ${book.book_price}<br>
-
+			
+		<form style="display:inline" action="addToCart" method="post" >
+			<input type="hidden" name="book_num" value="${book.book_num}">
+			<input type="submit" value="장바구니에 추가">
+		</form>
+		
+		<form style="display:inline" action="buy" method="post" >
+			<input type="hidden" name="book_num" value="${book.book_num}">
+			<input type="submit" value="바로 구매">
+		</form>
 		<br>
 		<c:if test="${sessionScope.id == 'admin' }">
 		<form style="display:inline" action="modifyBook" method="get" >
