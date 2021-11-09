@@ -11,6 +11,7 @@ import com.dsu2021.pj.dto.UserDTO;
 import com.dsu2021.pj.dto.UserDTO.AddBookReq;
 import com.dsu2021.pj.dto.UserDTO.ModifyBookReq;
 import com.dsu2021.pj.dto.UserDTO.SignUpRes;
+import com.dsu2021.pj.entity.BookCart;
 import com.dsu2021.pj.entity.Cart;
 import com.dsu2021.pj.service.UserService;
 
@@ -274,7 +275,8 @@ public class UserController {
 		Cart cart = service.getCart((String)session.getAttribute("id"));
 		
 		if(cart != null) {
-			service.getBookCartsByBasketNum(cart.getBasket_num());
+			BookCart[] bookCarts = service.getBookCartsByBasketNum(cart.getBasket_num());
+			service.buyWithCart(cart.getUser_num(),bookCarts);
 			//책 구매 로직
 		}
 		

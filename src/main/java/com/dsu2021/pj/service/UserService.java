@@ -81,6 +81,20 @@ public class UserService {
 		return cart;
 	}
 	
+	public void buyWithCart(Long user_num, BookCart[] bookCarts) {
+		
+		
+		
+		
+		for(int i = 0; i<bookCarts.length ; i++) {
+			Book book = userMapper.getBookByBookNum(bookCarts[i].getBook_num());
+			Long sum = bookCarts[i].getBook_basket_amount()*)
+		}
+		
+		userMapper.createOrder(user_num,);
+		return ;
+	}
+	
 	public void addToCart(String book_num,Integer book_basket_amount, String id) {
 		
 		User user = userMapper.getUserById(id);
