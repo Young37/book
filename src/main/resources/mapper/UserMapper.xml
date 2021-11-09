@@ -65,6 +65,10 @@
 	<select id = "checkBookPriceWithBookNum" resultType="Integer">
 		SELECT book_price FROM book WHERE book_num = #{book_num};
 	</select>
+	
+	<select id="getBookCartsByBasketNum" resultType="com.dsu2021.pj.entity.BookCart">
+		SELECT * FROM book_cart WHERE basket_num = #{basket_num};
+	</select>
 		<!-- INSERT -->
 
 	<insert id="insertUser">

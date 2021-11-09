@@ -11,6 +11,7 @@ import com.dsu2021.pj.dto.UserDTO;
 import com.dsu2021.pj.dto.UserDTO.AddBookReq;
 import com.dsu2021.pj.dto.UserDTO.ModifyBookReq;
 import com.dsu2021.pj.dto.UserDTO.SignUpRes;
+import com.dsu2021.pj.entity.Cart;
 import com.dsu2021.pj.service.UserService;
 
 @Controller
@@ -117,7 +118,14 @@ public class UserController {
 			return "bookList";
 		}
 		
+		Cart cart = service.getCart((String)session.getAttribute("id"));
 		
+		if(cart != null) {
+		model.addAttribute("basket_num",cart.getBasket_num());
+		model.addAttribute("basket_date",cart.getBasket_date());
+		model.addAttribute("list",service.getBookCartsByBasketNum(cart.getBasket_num()));
+		
+		}
 		return "cart";
 	}
 	
@@ -255,6 +263,23 @@ public class UserController {
 		return "bookList";
 	}
 	
+	@PostMapping("buyWithCart")
+	public String buyWithCart(HttpSession session,Model model){
+		if(session.getAttribute("id") == null ) {
+			model.addAttribute("list",service.getBookList(""));
+			model.addAttribute("book_name","");
+			return "bookList";
+		}
+		
+		Cart cart = service.getCart((String)session.getAttribute("id"));
+		
+		if(cart != null) {
+			service.getBookCartsByBasketNum(cart.getBasket_num());
+			//책 구매 로직
+		}
+		
+		return "myPage";
+	}
 	
 	
 	

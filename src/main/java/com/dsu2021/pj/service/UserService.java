@@ -70,6 +70,17 @@ public class UserService {
 		userMapper.insertBook(new Book(null,req.getBook_name(),req.getBook_stock(),req.getBook_price()));
 	}
 	
+	public BookCart[] getBookCartsByBasketNum(Long basket_num) {
+		BookCart[] bookCarts = userMapper.getBookCartsByBasketNum(basket_num);
+		return bookCarts;
+	}
+	
+	public Cart getCart(String id) {
+		User user = userMapper.getUserById(id);
+		Cart cart = userMapper.getCart(user.getUser_num());
+		return cart;
+	}
+	
 	public void addToCart(String book_num,Integer book_basket_amount, String id) {
 		
 		User user = userMapper.getUserById(id);

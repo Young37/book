@@ -17,9 +17,10 @@
 			<a href="myPage">돌아가기</a>
 		</c:if>
 		
-		
-		장바구니 생성일자 + 장바구니 번호
-		
+		<br>
+		장바구니 번호 : ${ basket_num == null ? '':basket_num }<br>
+		장바구니 생성일자 : ${ basket_date == null ? '':basket_date }
+				
 		<!-- 목록 -->
 		
 		<table style="width:70%;border:1px solid black;text-align:center">

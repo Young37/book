@@ -39,6 +39,8 @@ public interface UserMapper {
 
 	public Integer checkBookPriceWithBookNum(String book_num);
 	
+	public BookCart[] getBookCartsByBasketNum(Long basket_num);
+	
 // PATCH
 	
 	public void modifyBook(Book book);
