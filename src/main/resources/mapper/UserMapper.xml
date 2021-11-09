@@ -69,6 +69,15 @@
 	<select id="getBookCartsByBasketNum" resultType="com.dsu2021.pj.entity.BookCart">
 		SELECT * FROM book_cart WHERE basket_num = #{basket_num};
 	</select>
+	
+	<select id="getAddressByUserNum">
+		SELECT * FROM address WHERE user_num = #{user_num};
+	</select>
+		
+	<select id="getCardByUserNum">
+		SELECT * FROM card WHERE user_num = #{user_num};
+	</select>
+	
 		<!-- INSERT -->
 
 	<insert id="insertUser">
@@ -89,6 +98,10 @@
 	
 	<insert id="addToCart">
 		INSERT INTO book_cart (book_num, basket_num, book_basket_amount, book_basket_price) VALUES (#{book_num},#{basket_num},#{book_basket_amount},#{book_basket_price});
+	</insert>
+	
+	<insert id="createOrder">
+		INSERT INTO order (user_num,order_total,order_zip_code,order_default_addr,order_detail_addr,order_card_num,order_card_valid_date,order_card_type)
 	</insert>
 		
 <!-- 		

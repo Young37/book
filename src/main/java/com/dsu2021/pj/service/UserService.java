@@ -11,7 +11,9 @@ import com.dsu2021.pj.dto.UserDTO.SignUpReq;
 import com.dsu2021.pj.entity.Address;
 import com.dsu2021.pj.entity.Book;
 import com.dsu2021.pj.entity.BookCart;
+import com.dsu2021.pj.entity.Card;
 import com.dsu2021.pj.entity.Cart;
+import com.dsu2021.pj.entity.Order;
 import com.dsu2021.pj.entity.User;
 import com.dsu2021.pj.repository.UserMapper;
 
@@ -81,18 +83,37 @@ public class UserService {
 		return cart;
 	}
 	
-	public void buyWithCart(Long user_num, BookCart[] bookCarts) {
+	public void buyWithCart(String id, Long user_num, BookCart[] bookCarts) {
+		//없을경우 예외처리 + 카드 주소가 하나가 아닐경우 처리
+		
+		User user = userMapper.getUserById(id);
+		Address[] address = userMapper.getAddressByUserNum(user_num);
+		Card[] card = userMapper.getCardByUserNum(user_num);
 		
 		
-		
-		
-		for(int i = 0; i<bookCarts.length ; i++) {
-			Book book = userMapper.getBookByBookNum(bookCarts[i].getBook_num());
-			Long sum = bookCarts[i].getBook_basket_amount()*)
+		Integer order_total = 0;
+		for( int i = 0 ; i < bookCarts.length ; i++ ) {
+			order_total += bookCarts[i].getBook_basket_price();
 		}
 		
-		userMapper.createOrder(user_num,);
-		return ;
+		
+		userMapper.createOrder(
+		null,
+		user_num,
+		null,	
+		order_total,
+		address[0].getZip_code(),
+		address[0].getDefault_addr(),
+		address[0].getDetail_addr()),
+		card[0].getCard_num(),
+		card[0].getCard_valid_date(),
+		card[0].getCard_type()
+		);
+		
+		Order order = userMapper.getLatestOrderByUserNum();
+		
+		
+		
 	}
 	
 	public void addToCart(String book_num,Integer book_basket_amount, String id) {

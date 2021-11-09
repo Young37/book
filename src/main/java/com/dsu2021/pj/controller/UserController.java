@@ -276,7 +276,7 @@ public class UserController {
 		
 		if(cart != null) {
 			BookCart[] bookCarts = service.getBookCartsByBasketNum(cart.getBasket_num());
-			service.buyWithCart(cart.getUser_num(),bookCarts);
+			service.buyWithCart((String)session.getAttribute("id"),cart.getUser_num(),bookCarts);
 			//책 구매 로직
 		}
 		
