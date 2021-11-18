@@ -243,14 +243,14 @@ public class UserController {
 	}
 	
 	@PostMapping("addToCart")
-	public String addToCart(String book_num, Integer book_cart_amount,HttpSession session,Model model,SignUpRes res) {
+	public String addToCart(String book_num, Integer book_cart_amount,HttpSession session,Model model,SignUpRes res, Book book) {
 		if(session.getAttribute("id") == null ) {
 			model.addAttribute("list",service.getBookList(""));
 			model.addAttribute("book_name","");
 			return "bookList";
 		}
 		
-		Book book = service.getBookByBookNum(book_num);
+		book = service.getBookByBookNum(book_num);
 		
 		if(book_cart_amount > book.getBook_stock() || book.getBook_stock() == 0) {
 			res.setErrorMsg("재고 부족");
