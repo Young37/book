@@ -2,8 +2,6 @@ package com.dsu2021.pj.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import com.dsu2021.pj.dto.UserDTO;
 import com.dsu2021.pj.dto.UserDTO.AddBookReq;
 import com.dsu2021.pj.dto.UserDTO.ModifyBookReq;
 import com.dsu2021.pj.dto.UserDTO.SignInReq;
@@ -13,7 +11,6 @@ import com.dsu2021.pj.entity.Book;
 import com.dsu2021.pj.entity.BookCart;
 import com.dsu2021.pj.entity.Card;
 import com.dsu2021.pj.entity.Cart;
-import com.dsu2021.pj.entity.Order;
 import com.dsu2021.pj.entity.User;
 import com.dsu2021.pj.repository.UserMapper;
 
@@ -32,12 +29,12 @@ public class UserService {
 		}
 	}
 	
-	public void addUser(UserDTO.SignUpReq req) {
-		userMapper.insertUser(new User(req.getUserNum(),req.getName(),req.getId(),req.getPassword()));
+	public void addUser(User user) {
+		userMapper.insertUser(user);
 	}
 	
-	public void addAddress(UserDTO.SignUpReq req) {
-		userMapper.insertAddress(new Address(null,req.getUserNum(),req.getZipCode(),req.getDefaultAddr(),req.getDetailAddr()));
+	public void addAddress(Address address) {
+		userMapper.insertAddress(address);
 	}
 	
 	public boolean validCheckUser(SignInReq req) {
@@ -72,8 +69,8 @@ public class UserService {
 		userMapper.insertBook(new Book(null,req.getBook_name(),req.getBook_stock(),req.getBook_price()));
 	}
 	
-	public BookCart[] getBookCartsByBasketNum(Long basket_num) {
-		BookCart[] bookCarts = userMapper.getBookCartsByBasketNum(basket_num);
+	public BookCart[] getBookCartsByCartNum(Long cart_num) {
+		BookCart[] bookCarts = userMapper.getBookCartsByCartNum(cart_num);
 		return bookCarts;
 	}
 	
@@ -93,9 +90,8 @@ public class UserService {
 		
 		Integer order_total = 0;
 		for( int i = 0 ; i < bookCarts.length ; i++ ) {
-			order_total += bookCarts[i].getBook_basket_price();
+			order_total += bookCarts[i].getBook_cart_price();
 		}
-		
 		
 		userMapper.createOrder(
 		null,
@@ -104,19 +100,16 @@ public class UserService {
 		order_total,
 		address[0].getZip_code(),
 		address[0].getDefault_addr(),
-		address[0].getDetail_addr()),
+		address[0].getDetail_addr(),
 		card[0].getCard_num(),
 		card[0].getCard_valid_date(),
 		card[0].getCard_type()
 		);
 		
-		Order order = userMapper.getLatestOrderByUserNum();
-		
-		
-		
+		//Order order = userMapper.getLatestOrderByUserNum();
 	}
 	
-	public void addToCart(String book_num,Integer book_basket_amount, String id) {
+	public void addToCart(String book_num,Integer book_cart_amount, String id) {
 		
 		User user = userMapper.getUserById(id);
 		
@@ -129,6 +122,6 @@ public class UserService {
 		
 		Integer price = userMapper.checkBookPriceWithBookNum(book_num);
 		
-		userMapper.addToCart(new BookCart(null,Long.parseLong(book_num), cart.getBasket_num(),book_basket_amount,price*book_basket_amount));
+		userMapper.addToCart(new BookCart(null,Long.parseLong(book_num), cart.getCart_num(),book_cart_amount,price*book_cart_amount));
 	}
 }

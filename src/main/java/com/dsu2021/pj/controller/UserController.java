@@ -11,8 +11,10 @@ import com.dsu2021.pj.dto.UserDTO;
 import com.dsu2021.pj.dto.UserDTO.AddBookReq;
 import com.dsu2021.pj.dto.UserDTO.ModifyBookReq;
 import com.dsu2021.pj.dto.UserDTO.SignUpRes;
+import com.dsu2021.pj.entity.Address;
 import com.dsu2021.pj.entity.BookCart;
 import com.dsu2021.pj.entity.Cart;
+import com.dsu2021.pj.entity.User;
 import com.dsu2021.pj.service.UserService;
 
 @Controller
@@ -20,7 +22,6 @@ public class UserController {
 	
 	@Autowired
 	UserService service;
-	
 	
 	//단순 페이지 이동
 	
@@ -51,15 +52,7 @@ public class UserController {
 	
 	@GetMapping("detail")
 	public String detailPage(String book_num,HttpSession session, Model model) {
-		if(session.getAttribute("id") == null) {
-			model.addAttribute("list",service.getBookList(""));
-			model.addAttribute("book_name","");
-			return "bookList";
-		}
-		
-		
 		model.addAttribute("book",service.getBookByBookNum(book_num));
-		
 		return "detail";
 	}
 	
@@ -72,7 +65,6 @@ public class UserController {
 		}
 		
 		model.addAttribute("book",service.getBookByBookNum(book_num));
-		
 		return "modifyBook";
 	}
 	
@@ -122,10 +114,9 @@ public class UserController {
 		Cart cart = service.getCart((String)session.getAttribute("id"));
 		
 		if(cart != null) {
-		model.addAttribute("basket_num",cart.getBasket_num());
-		model.addAttribute("basket_date",cart.getBasket_date());
-		model.addAttribute("list",service.getBookCartsByBasketNum(cart.getBasket_num()));
-		
+		model.addAttribute("cart_num",cart.getCart_num());
+		model.addAttribute("cart_date",cart.getCart_date());
+		model.addAttribute("list",service.getBookCartsByCartNum(cart.getCart_num()));
 		}
 		return "cart";
 	}
@@ -165,7 +156,7 @@ public class UserController {
 				res.setErrorMsg("이미 있는 회원번호 또는 아이디입니다.");
 				return "signUp";
 			}
-			service.addUser(req);
+			service.addUser(new User(req.getUserNum(),req.getName(),req.getId(),req.getPassword()));
 			session.setAttribute("id",req.getId());
 			return "login";
 		}
@@ -175,8 +166,9 @@ public class UserController {
 				res.setErrorMsg("이미 있는 회원번호 또는 아이디입니다.");
 				return "signUp";
 			}
-			service.addUser(req);
-			service.addAddress(req);
+			service.addUser(new User(req.getUserNum(),req.getName(),req.getId(),req.getPassword()));
+			
+			service.addAddress(new Address(null,req.getUserNum(),req.getZipCode(),req.getDefaultAddr(),req.getDetailAddr()));
 			session.setAttribute("id",req.getId());
 			return "login";
 		}
@@ -211,7 +203,6 @@ public class UserController {
 			model.addAttribute("book_name","");
 			return "bookList";
 		}
-		
 		
 		service.deleteBookByBookNum(book_num);
 		model.addAttribute("list",service.getBookList(""));
@@ -251,14 +242,14 @@ public class UserController {
 	}
 	
 	@PostMapping("addToCart")
-	public String addToCart(String book_num, Integer book_basket_amount,Integer book_stock,HttpSession session,Model model,SignUpRes res) {
-		if(session.getAttribute("id") == null || book_basket_amount > book_stock || book_stock == 0) {
+	public String addToCart(String book_num, Integer book_cart_amount,Integer book_stock,HttpSession session,Model model,SignUpRes res) {
+		if(session.getAttribute("id") == null || book_cart_amount > book_stock || book_stock == 0) {
 			model.addAttribute("list",service.getBookList(""));
 			model.addAttribute("book_name","");
 			return "bookList";
 		}
 		
-		service.addToCart(book_num,book_basket_amount,(String)session.getAttribute("id"));
+		service.addToCart(book_num,book_cart_amount,(String)session.getAttribute("id"));
 		model.addAttribute("list",service.getBookList(""));
 		model.addAttribute("book_name","");
 		return "bookList";
@@ -275,7 +266,7 @@ public class UserController {
 		Cart cart = service.getCart((String)session.getAttribute("id"));
 		
 		if(cart != null) {
-			BookCart[] bookCarts = service.getBookCartsByBasketNum(cart.getBasket_num());
+			BookCart[] bookCarts = service.getBookCartsByCartNum(cart.getCart_num());
 			service.buyWithCart((String)session.getAttribute("id"),cart.getUser_num(),bookCarts);
 			//책 구매 로직
 		}

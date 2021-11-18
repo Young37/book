@@ -8,7 +8,7 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 public class Cart {
-	private Long basket_num;
+	private Long cart_num;
 	private Long user_num;
-	private Date basket_date;
+	private Date cart_date;
 }

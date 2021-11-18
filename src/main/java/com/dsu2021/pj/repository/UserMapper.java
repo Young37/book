@@ -29,6 +29,7 @@ public interface UserMapper {
 			String default_addr, String detail_addr, Long card_num, Date card_valid_date, String card_type);
 
 // READ
+	
 	public User[] selectUserByUserNumORID(User user);
 	
 	public User selectUserByIDAndPassword(User user);
@@ -45,7 +46,7 @@ public interface UserMapper {
 
 	public Integer checkBookPriceWithBookNum(String book_num);
 	
-	public BookCart[] getBookCartsByBasketNum(Long basket_num);
+	public BookCart[] getBookCartsByCartNum(Long cart_num);
 	
 	public Address[] getAddressByUserNum(Long user_num);
 			
@@ -56,6 +57,7 @@ public interface UserMapper {
 	public void modifyBook(Book book);
 	
 // PUT
+	
 	
 	
 // DELETE
