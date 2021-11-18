@@ -18,8 +18,8 @@
 		</c:if>
 		
 		<br>
-		장바구니 번호 : ${ basket_num == null ? '':basket_num }<br>
-		장바구니 생성일자 : ${ basket_date == null ? '':basket_date }
+		장바구니 번호 : ${ cart_num == null ? '':cart_num }<br>
+		장바구니 생성일자 : ${ cart_date == null ? '':cart_date }
 				
 		<!-- 목록 -->
 		
@@ -31,11 +31,11 @@
 			<tbody>
 				<c:forEach var="li" items="${list}">
 				<tr>
-					<td>${li.book_basket_num}</td>
+					<td>${li.book_cart_num}</td>
 					<td>${li.book_num}</td>
-					<td>${li.basket_num}</td>
-					<td>${li.book_basket_amount}</td>
-					<td>${li.book_basket_price}</td>
+					<td>${li.cart_num}</td>
+					<td>${li.book_cart_amount}</td>
+					<td>${li.book_cart_price}</td>
 				</tr>
 				</c:forEach>
 			</tbody>

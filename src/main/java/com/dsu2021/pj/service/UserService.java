@@ -96,7 +96,7 @@ public class UserService {
 		userMapper.createOrder(
 		null,
 		user_num,
-		null,	
+		null,
 		order_total,
 		address[0].getZip_code(),
 		address[0].getDefault_addr(),

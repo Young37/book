@@ -27,7 +27,7 @@
 		<form style="display:inline" action="addToCart" method="post" >
 			<input type="hidden" name="book_num" value="${book.book_num}">
 			<input type="hidden" name="book_stock" value="${book.book_stock}">
-			<input type="number" name="book_basket_amount">
+			<input type="number" name="book_cart_amount">
 			<input type="submit" value="장바구니에 추가">
 		</form>
 		</c:if>
@@ -47,8 +47,7 @@
 		</form>
 		<br>
 		</c:if>
-		
-		
+				
 		<br>
 	</main>
 </body>

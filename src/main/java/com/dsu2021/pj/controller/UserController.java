@@ -12,6 +12,7 @@ import com.dsu2021.pj.dto.UserDTO.AddBookReq;
 import com.dsu2021.pj.dto.UserDTO.ModifyBookReq;
 import com.dsu2021.pj.dto.UserDTO.SignUpRes;
 import com.dsu2021.pj.entity.Address;
+import com.dsu2021.pj.entity.Book;
 import com.dsu2021.pj.entity.BookCart;
 import com.dsu2021.pj.entity.Cart;
 import com.dsu2021.pj.entity.User;
@@ -242,11 +243,18 @@ public class UserController {
 	}
 	
 	@PostMapping("addToCart")
-	public String addToCart(String book_num, Integer book_cart_amount,Integer book_stock,HttpSession session,Model model,SignUpRes res) {
-		if(session.getAttribute("id") == null || book_cart_amount > book_stock || book_stock == 0) {
+	public String addToCart(String book_num, Integer book_cart_amount,HttpSession session,Model model,SignUpRes res) {
+		if(session.getAttribute("id") == null ) {
 			model.addAttribute("list",service.getBookList(""));
 			model.addAttribute("book_name","");
 			return "bookList";
+		}
+		
+		Book book = service.getBookByBookNum(book_num);
+		
+		if(book_cart_amount > book.getBook_stock() || book.getBook_stock() == 0) {
+			res.setErrorMsg("재고 부족");
+			return "detail";
 		}
 		
 		service.addToCart(book_num,book_cart_amount,(String)session.getAttribute("id"));
