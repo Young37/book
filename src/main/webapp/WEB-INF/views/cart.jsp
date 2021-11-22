@@ -46,8 +46,9 @@
 			</tbody>
 		</table>
 		
-		<input type="submit" value="장바구니로 구매하기">
-		
+		<form action="buyWithCart" method="post">
+			<input type="submit" value="장바구니로 구매하기">
+		</form>
 
 	
 	</main>

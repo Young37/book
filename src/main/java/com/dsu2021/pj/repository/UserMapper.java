@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import com.dsu2021.pj.entity.Address;
 import com.dsu2021.pj.entity.Book;
 import com.dsu2021.pj.entity.BookCart;
+import com.dsu2021.pj.entity.BookOrder;
 import com.dsu2021.pj.entity.Card;
 import com.dsu2021.pj.entity.Cart;
 import com.dsu2021.pj.entity.Order;
@@ -32,6 +33,8 @@ public interface UserMapper {
 	
 	public void addCard(Card card);
 	
+	public void createBook_order(BookOrder bookOrder);
+	
 // READ
 	
 	public User[] selectUserByUserNumORID(User user);
@@ -52,6 +55,8 @@ public interface UserMapper {
 	
 	public BookCart[] getBookCartsByCartNum(Long cart_num);
 	
+	public BookCart[] getBookCartsByBookNum(Long book_num);
+	
 	public Address[] getAddressByUserNum(Long user_num);
 			
 	public Card[] getCardsByUserNum(Long user_num);
@@ -59,6 +64,7 @@ public interface UserMapper {
 	public Card getCardByCard_num(Long card_num);
 	
 	public Order getLatestOrderByUserNum(Long user_num);
+
 	
 // PATCH
 	
@@ -71,6 +77,10 @@ public interface UserMapper {
 // DELETE
 	
 	public void deleteBookByBookNum(String book_num);
-
 	
+	public void deleteBookCartByCartNum(Long cart_num);
+
+	public void deleteCartByUserNum(Long user_num);
+	
+	public void deleteBookCartByBookCartNum(Long book_cart_num);
 }
