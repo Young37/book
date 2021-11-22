@@ -70,6 +70,8 @@ public interface UserMapper {
 	
 	public void modifyBook(Book book);
 	
+	public void addjustBookCartPrice(Long book_cart_num, Integer book_cart_price);
+	
 // PUT
 	
 	

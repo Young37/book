@@ -74,8 +74,13 @@ public class UserService {
 		BookCart[] bookCarts = userMapper.getBookCartsByBookNum(req.getBook_num());
 		
 		for ( int i = 0 ; i<bookCarts.length; i++) {
-			if(req.getBook_stock() < bookCarts[i].getBook_cart_amount())
-				userMapper.deleteBookCartByBookCartNum();
+			if(req.getBook_stock() < bookCarts[i].getBook_cart_amount()) {
+				userMapper.deleteBookCartByBookCartNum(bookCarts[i].getBook_cart_num());
+			}else{
+				Integer price = userMapper.checkBookPriceWithBookNum(req.getBook_num());
+				userMapper.addjustBookCartPrice(bookCarts[i].getBook_cart_num()
+						,price*bookCarts[i].getBook_cart_amount());
+			}
 		}
 	}
 	

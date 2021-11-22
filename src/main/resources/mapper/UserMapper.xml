@@ -154,6 +154,10 @@
 	 	UPDATE book SET book_name = #{book_name} ,book_stock = #{book_stock},book_price = #{book_price} WHERE book_num = #{book_num};
 	 </update>
 	 
+	 <update id="addjustBookCartPrice">
+	 	UPDATE book_cart SET book_cart_price = #{book_cart_price} WHERE book_cart_num = #{book_cart_num};
+	 </update>
+	 
 	 
 	 
 	<!-- DELETE -->
