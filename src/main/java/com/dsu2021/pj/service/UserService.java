@@ -13,6 +13,7 @@ import com.dsu2021.pj.entity.Book;
 import com.dsu2021.pj.entity.BookCart;
 import com.dsu2021.pj.entity.Card;
 import com.dsu2021.pj.entity.Cart;
+import com.dsu2021.pj.entity.Order;
 import com.dsu2021.pj.entity.User;
 import com.dsu2021.pj.repository.UserMapper;
 
@@ -41,7 +42,7 @@ public class UserService {
 		return bookList;
 	}
 	
-	public Book getBookByBookNum(String book_num) {
+	public Book getBookByBookNum(Long book_num) {
 		Book book = userMapper.getBookByBookNum(book_num);
 		return book;
 	}
@@ -95,35 +96,81 @@ public class UserService {
 	
 	
 	public void buyWithCart(String id, Long user_num, BookCart[] bookCarts) {
-		//없을경우 예외처리 + 카드 주소가 하나가 아닐경우 처리
+		if(bookCarts.length == 0 ) return;
 		
+		
+		// 준비
 		User user = userMapper.getUserById(id);
-		Address[] address = userMapper.getAddressByUserNum(user_num);
-		Card[] cards = userMapper.getCardsByUserNum(user_num);
+		Address[] addressList = userMapper.getAddressByUserNum(user_num);
+		Card[] cardList = userMapper.getCardsByUserNum(user_num);
+		
+		//재고 유효성 검사
+		
+		for (int i = 0 ; i < bookCarts.length ; i++) {
+			Book book = userMapper.getBookByBookNum(bookCarts[i].getBook_num());
+			Integer A = book.getBook_stock();
+			Integer B = bookCarts[i].getBook_cart_amount();
+			
+			if( A < B ) {
+				System.out.println("재고 초과");
+				return;
+			}
+		}
+		
+		//재고 차감
+		
+		for (int i = 0 ; i < bookCarts.length ; i++) {
+			Book book = userMapper.getBookByBookNum(bookCarts[i].getBook_num());
+			Integer A = book.getBook_stock();
+			Integer B = bookCarts[i].getBook_cart_amount();
+			
+			Integer newStock = A - B;
+			
+			userMapper.modifyBook(
+					new Book(book.getBook_num(),
+							book.getBook_name(),
+							newStock,
+							book.getBook_price()
+							)
+			);
+		}
 		
 		
+		//주문 총액 계산
 		Integer order_total = 0;
 		for( int i = 0 ; i < bookCarts.length ; i++ ) {
 			order_total += bookCarts[i].getBook_cart_price();
 		}
 		
+		//주문 생성
 		userMapper.createOrder(
-		null,
-		user_num,
-		null,
-		order_total,
-		address[0].getZip_code(),
-		address[0].getDefault_addr(),
-		address[0].getDetail_addr(),
-		cards[0].getCard_num(),
-		cards[0].getCard_valid_date(),
-		cards[0].getCard_type()
+				new Order(
+						null, // order_num
+						user_num, // user_num
+						null, // order_date
+						order_total, // order_total
+						addressList[0].getZip_code(), // order_zip_code
+						addressList[0].getDefault_addr(), // order_default_addr
+						addressList[0].getDetail_addr(), // order_detail_addr
+						cardList[0].getCard_num(), // order_card_num
+						cardList[0].getCard_valid_date(), // order_card_valid_date
+						cardList[0].getCard_type()// order_card_type
+				)
 		);
 		
-		//Order order = userMapper.getLatestOrderByUserNum();
+		Order order = userMapper.getLatestOrderByUserNum(user_num);
+		
+		//주문상세 생성
+		for()
+		userMapper.createBook_order();
+		
+		
+		
+		//장바구니 비우기
+		
 	}
 	
-	public void addToCart(String book_num,Integer book_cart_amount, String id) {
+	public void addToCart(Long book_num,Integer book_cart_amount, String id) {
 		
 		User user = userMapper.getUserById(id);
 		
@@ -136,7 +183,7 @@ public class UserService {
 		
 		Integer price = userMapper.checkBookPriceWithBookNum(book_num);
 		
-		userMapper.addToCart(new BookCart(null,Long.parseLong(book_num), cart.getCart_num(),book_cart_amount,price*book_cart_amount));
+		userMapper.addToCart(new BookCart(null,book_num, cart.getCart_num(),book_cart_amount,price*book_cart_amount));
 	}
 	
 	

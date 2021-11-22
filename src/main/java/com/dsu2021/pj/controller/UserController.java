@@ -8,10 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-
-import com.dsu2021.pj.domain.room.dto.RoomDTO;
 import com.dsu2021.pj.dto.UserDTO;
 import com.dsu2021.pj.dto.UserDTO.AddBookReq;
 import com.dsu2021.pj.dto.UserDTO.ModifyBookReq;
@@ -58,14 +55,14 @@ public class UserController {
 	}
 	
 	@GetMapping("detail")
-	public String detailPage(String book_num,HttpSession session, Model model) {
+	public String detailPage(Long book_num,HttpSession session, Model model) {
 		model.addAttribute("book",service.getBookByBookNum(book_num));
 		System.out.println("디테일");
 		return "detail";
 	}
 	
 	@GetMapping("modifyBook")
-	public String modifyBookPage(String book_num,HttpSession session, Model model) {
+	public String modifyBookPage(Long book_num,HttpSession session, Model model) {
 		if(!session.getAttribute("id").equals("admin")) {
 			model.addAttribute("list",service.getBookList(""));
 			model.addAttribute("book_name","");
@@ -266,7 +263,7 @@ public class UserController {
 	}
 	
 	@PostMapping("addToCart")
-	public String addToCart(String book_num, Integer book_cart_amount,HttpSession session,Model model,SignUpRes res, Book book) {
+	public String addToCart(Long book_num, Integer book_cart_amount,HttpSession session,Model model,SignUpRes res, Book book) {
 		if(session.getAttribute("id") == null ) {
 			model.addAttribute("list",service.getBookList(""));
 			model.addAttribute("book_name","");

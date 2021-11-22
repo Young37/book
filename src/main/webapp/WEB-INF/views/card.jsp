@@ -29,7 +29,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					<c:if test="${list}">
+					<c:if test="${!empty list}">
 						<c:forEach var="li" items="${list}">
 						<tr>
 							<td>${li.card_num}</td>
@@ -49,7 +49,11 @@
 			
 				신용카드번호<input name = "card_num" type = "number"><br>
 				신용카드 유효기간<input name = "card_valid_date" type = "date"><br>
-				신용카드 종류<input name = "card_type" type = "text"><br>
+				신용카드 종류
+				<select name="card_type">
+					<option value="신용카드">신용카드</option>
+					<option value="체크카드">체크카드</option>
+				</select><br>
 				<input type="submit" value="카드 추가">
 			</form>
 

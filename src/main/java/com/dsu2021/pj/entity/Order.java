@@ -15,7 +15,7 @@ public class Order {
 	private String order_zip_code;
 	private String order_default_addr;
 	private String order_detail_addr;
-	private Integer order_card_num;
+	private Long order_card_num;
 	private Date order_card_valid_date;
 	private String order_card_type;
 }

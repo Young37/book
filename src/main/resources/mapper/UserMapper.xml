@@ -86,6 +86,10 @@
 		SELECT * FROM card WHERE card_num = #{card_num};
 	</select>
 	
+	<select id="getLatestOrderByUserNum" resultType="com.dsu2021.pj.entity.Order">
+		SELECT * FROM `order` WHERE user_num = #{user_num} ORDER BY order_num desc limit 0,1;
+	</select>
+	
 		<!-- INSERT -->
 
 	<insert id="insertUser">
@@ -113,7 +117,7 @@
 	</insert>
 	
 	<insert id="addCard">
-		INSERT INTO card VALUES (#{card_num},#{user_num},#{card_valid_date},${card_type});
+		INSERT INTO card VALUES (#{card_num},#{user_num},#{card_valid_date},#{card_type});
 	</insert>
 		
 <!-- 		

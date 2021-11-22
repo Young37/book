@@ -10,6 +10,7 @@ import com.dsu2021.pj.entity.Book;
 import com.dsu2021.pj.entity.BookCart;
 import com.dsu2021.pj.entity.Card;
 import com.dsu2021.pj.entity.Cart;
+import com.dsu2021.pj.entity.Order;
 import com.dsu2021.pj.entity.User;
 
 @Mapper
@@ -25,8 +26,7 @@ public interface UserMapper {
 	
 	public void addToCart(BookCart bookCart);
 	
-	public void createOrder(Object object, Long user_num, Object object2, Integer order_total, String zip_code,
-			String default_addr, String detail_addr, Long card_num, Date card_valid_date, String card_type);
+	public void createOrder(Order order);
 
 	public void createCart(Long user_num);
 	
@@ -40,7 +40,7 @@ public interface UserMapper {
 	
 	public Book[] getBookList(String book_name);
 	
-	public Book getBookByBookNum(String book_num);
+	public Book getBookByBookNum(Long book_num);
 	
 	public User getUserById(String id);
 	
@@ -48,7 +48,7 @@ public interface UserMapper {
 	
 	public Card[] getCardList(Long user_num);
 
-	public Integer checkBookPriceWithBookNum(String book_num);
+	public Integer checkBookPriceWithBookNum(Long book_num);
 	
 	public BookCart[] getBookCartsByCartNum(Long cart_num);
 	
@@ -57,6 +57,8 @@ public interface UserMapper {
 	public Card[] getCardsByUserNum(Long user_num);
 	
 	public Card getCardByCard_num(Long card_num);
+	
+	public Order getLatestOrderByUserNum(Long user_num);
 	
 // PATCH
 	
