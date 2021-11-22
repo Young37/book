@@ -33,6 +33,11 @@ public class UserService {
 		}
 	}
 	
+	public Address[] getAddressByUserNum	(Long user_num) {
+		Address[] addressList = userMapper.getAddressByUserNum(user_num);
+		return addressList;
+	}
+	
 	public User getUserById(String id) {
 		User user = userMapper.getUserById(id);
 		return user;

@@ -159,6 +159,24 @@ public class UserController {
 		return "order";
 	}
 	
+	@GetMapping("address")
+	public String address(HttpSession session, Model model) {
+		if(session.getAttribute("id") == null) {
+			model.addAttribute("list",service.getBookList(""));
+			model.addAttribute("book_name","");
+			return "bookList";
+		}
+		
+		User user = service.getUserById((String)session.getAttribute("id"));
+		Address[] addressList = service.getAddressByUserNum(user.getUser_num());
+		
+		if(addressList.length != 0) {
+			model.addAttribute("list",addressList);
+		}
+		
+		return "address";
+	}
+	
 	//요청 처리 + 페이지 이동
 	
 	@PostMapping("signUp")
@@ -350,6 +368,31 @@ public class UserController {
 		}
 		
 		
+	}
+	
+	
+	@PostMapping("addAddress")
+	public String addAddress(String zip_code, String default_addr, String detail_addr, HttpSession session, Model model) {
+		if(session.getAttribute("id") == null ) {
+			model.addAttribute("list",service.getBookList(""));
+			model.addAttribute("book_name","");
+			return "bookList";
+		}
+		
+			
+		User user = service.getUserById((String)session.getAttribute("id"));
+		Long user_num = user.getUser_num();
+			
+		service.addAddress(new Address(null,user_num,zip_code,default_addr,detail_addr));
+
+		//주소 조회하라고 보내기
+		Address[] addressList = service.getAddressByUserNum(user.getUser_num());
+		
+		if(addressList.length != 0) {
+			model.addAttribute("list",addressList);
+		}
+		
+		return "address";
 	}
 	
 	
