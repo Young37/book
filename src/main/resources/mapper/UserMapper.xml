@@ -94,6 +94,10 @@
 		SELECT * FROM `order` WHERE user_num = #{user_num} ORDER BY order_num desc limit 0,1;
 	</select>
 	
+	<select id = "getOrderList" resultType="com.dsu2021.pj.entity.Order">
+		SELECT * FROM `order` WHERE user_num = #{user_num};
+	</select>
+	
 		<!-- INSERT -->
 
 	<insert id="insertUser">

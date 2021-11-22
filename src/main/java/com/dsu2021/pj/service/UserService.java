@@ -65,6 +65,12 @@ public class UserService {
 		return cardList;
 	}
 	
+	public Order[] getOrderList(String id) {
+		User user = userMapper.getUserById(id);
+		Order[] orderList = userMapper.getOrderList(user.getUser_num());
+		return orderList;
+	}
+	
 	public void deleteBookByBookNum(String book_num) {
 		userMapper.deleteBookByBookNum(book_num);
 	}

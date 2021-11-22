@@ -65,6 +65,7 @@ public interface UserMapper {
 	
 	public Order getLatestOrderByUserNum(Long user_num);
 
+	public Order[] getOrderList(Long user_num);
 	
 // PATCH
 	

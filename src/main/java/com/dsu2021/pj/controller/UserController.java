@@ -18,6 +18,7 @@ import com.dsu2021.pj.entity.Book;
 import com.dsu2021.pj.entity.BookCart;
 import com.dsu2021.pj.entity.Card;
 import com.dsu2021.pj.entity.Cart;
+import com.dsu2021.pj.entity.Order;
 import com.dsu2021.pj.entity.User;
 import com.dsu2021.pj.service.UserService;
 
@@ -142,6 +143,21 @@ public class UserController {
 		return "card";
 	}
 	
+	@GetMapping("order")
+	public String order(HttpSession session, Model model) {
+		if(session.getAttribute("id") == null) {
+			model.addAttribute("list",service.getBookList(""));
+			model.addAttribute("book_name","");
+			return "bookList";
+		}
+		
+		Order[] orderList = service.getOrderList((String)session.getAttribute("id"));
+		
+		if(orderList.length != 0) {
+			model.addAttribute("list",orderList);
+		}
+		return "order";
+	}
 	
 	//요청 처리 + 페이지 이동
 	
