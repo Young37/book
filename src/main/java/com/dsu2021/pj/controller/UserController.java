@@ -328,6 +328,8 @@ public class UserController {
 			return "card";
 		}catch(Exception e) {
 			System.out.println("유효하지 않은 날짜 입력값. 예외 처리 필요");
+			
+			return "a";
 		}
 		
 		

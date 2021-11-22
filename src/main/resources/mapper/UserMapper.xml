@@ -113,7 +113,7 @@
 	</insert>
 	
 	<insert id="addCard">
-		INSERT INTO card VALUES (1,2,'2022-12-30','신용카드');
+		INSERT INTO card VALUES (#{card_num},#{user_num},#{card_valid_date},${card_type});
 	</insert>
 		
 <!-- 		
