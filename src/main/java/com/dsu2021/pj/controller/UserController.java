@@ -307,7 +307,7 @@ public class UserController {
 	
 	
 	@PostMapping("addCard")
-	public String addCard(Long card_num, Long user_num, String card_valid_date, String card_type, HttpSession session, Model model) {
+	public String addCard(Long card_num, String card_valid_date, String card_type, HttpSession session, Model model) {
 		if(session.getAttribute("id") == null ) {
 			model.addAttribute("list",service.getBookList(""));
 			model.addAttribute("book_name","");
@@ -317,6 +317,10 @@ public class UserController {
 		try {
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 			Date card_valid_date_paresd = sdf.parse(card_valid_date);
+			
+			User user = service.getUserById((String)session.getAttribute("id"));
+			Long user_num = user.getUser_num();
+			
 			service.addCard(card_num,user_num,card_valid_date_paresd,card_type);
 
 			//카드 조회하라고 보내기
@@ -328,7 +332,7 @@ public class UserController {
 			return "card";
 		}catch(Exception e) {
 			System.out.println("유효하지 않은 날짜 입력값. 예외 처리 필요");
-			
+			e.printStackTrace();
 			return "a";
 		}
 		

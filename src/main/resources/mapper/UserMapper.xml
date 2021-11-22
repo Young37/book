@@ -74,15 +74,15 @@
 		SELECT * FROM book_cart WHERE cart_num = #{cart_num};
 	</select>
 	
-	<select id="getAddressByUserNum">
+	<select id="getAddressByUserNum" resultType="com.dsu2021.pj.entity.Address">
 		SELECT * FROM address WHERE user_num = #{user_num};
 	</select>
 		
-	<select id="getCardByUserNum">
+	<select id="getCardsByUserNum" resultType="com.dsu2021.pj.entity.Card">
 		SELECT * FROM card WHERE user_num = #{user_num};
 	</select>
 	
-	<select id="getCardByCard_num">
+	<select id="getCardByCard_num" resultType="com.dsu2021.pj.entity.Card">
 		SELECT * FROM card WHERE card_num = #{card_num};
 	</select>
 	

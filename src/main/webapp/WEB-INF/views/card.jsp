@@ -43,12 +43,13 @@
 			</table>
 			
 			<br>
-			카드 추가하기
+			<hr>
+			<b>카드 추가하기</b>
 			<form method="post" action="addCard">
-				<input name = "card_num" type = "number">
-				<input name = "user_num" type = "number">
-				<input name = "card_valid_date" type = "date">
-				<input name = "card_type" type = "text">
+			
+				신용카드번호<input name = "card_num" type = "number"><br>
+				신용카드 유효기간<input name = "card_valid_date" type = "date"><br>
+				신용카드 종류<input name = "card_type" type = "text"><br>
 				<input type="submit" value="카드 추가">
 			</form>
 

@@ -54,7 +54,7 @@ public interface UserMapper {
 	
 	public Address[] getAddressByUserNum(Long user_num);
 			
-	public Card[] getCardByUserNum(Long user_num);
+	public Card[] getCardsByUserNum(Long user_num);
 	
 	public Card getCardByCard_num(Long card_num);
 	

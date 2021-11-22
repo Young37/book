@@ -31,22 +31,9 @@ public class UserService {
 		}
 	}
 	
-	public void addUser(User user) {
-		userMapper.insertUser(user);
-	}
-	
-	public void addAddress(Address address) {
-		userMapper.insertAddress(address);
-	}
-	
-	public boolean validCheckUser(SignInReq req) {
-		User user = userMapper.selectUserByIDAndPassword(new User(null,null,req.getId(),req.getPassword()));
-		
-		if(user == null) {
-			return false;
-		}else {
-			return true;
-		}
+	public User getUserById(String id) {
+		User user = userMapper.getUserById(id);
+		return user;
 	}
 
 	public Book[] getBookList(String book_name) {
@@ -57,18 +44,6 @@ public class UserService {
 	public Book getBookByBookNum(String book_num) {
 		Book book = userMapper.getBookByBookNum(book_num);
 		return book;
-	}
-	
-	public void deleteBookByBookNum(String book_num) {
-		userMapper.deleteBookByBookNum(book_num);
-	}
-	
-	public void modifyBook(ModifyBookReq req) {
-		userMapper.modifyBook(new Book(req.getBook_num(),req.getBook_name(),req.getBook_stock(),req.getBook_price()));
-	}
-	
-	public void addBook(AddBookReq req) {
-		userMapper.insertBook(new Book(null,req.getBook_name(),req.getBook_stock(),req.getBook_price()));
 	}
 	
 	public BookCart[] getBookCartsByCartNum(Long cart_num) {
@@ -88,12 +63,43 @@ public class UserService {
 		return cardList;
 	}
 	
+	public void deleteBookByBookNum(String book_num) {
+		userMapper.deleteBookByBookNum(book_num);
+	}
+	
+	public void modifyBook(ModifyBookReq req) {
+		userMapper.modifyBook(new Book(req.getBook_num(),req.getBook_name(),req.getBook_stock(),req.getBook_price()));
+	}
+	
+	public void addUser(User user) {
+		userMapper.insertUser(user);
+	}
+	
+	public void addAddress(Address address) {
+		userMapper.insertAddress(address);
+	}
+	
+	public boolean validCheckUser(SignInReq req) {
+		User user = userMapper.selectUserByIDAndPassword(new User(null,null,req.getId(),req.getPassword()));
+		
+		if(user == null) {
+			return false;
+		}else {
+			return true;
+		}
+	}
+	
+	public void addBook(AddBookReq req) {
+		userMapper.insertBook(new Book(null,req.getBook_name(),req.getBook_stock(),req.getBook_price()));
+	}
+	
+	
 	public void buyWithCart(String id, Long user_num, BookCart[] bookCarts) {
 		//없을경우 예외처리 + 카드 주소가 하나가 아닐경우 처리
 		
 		User user = userMapper.getUserById(id);
 		Address[] address = userMapper.getAddressByUserNum(user_num);
-		Card[] card = userMapper.getCardByUserNum(user_num);
+		Card[] cards = userMapper.getCardsByUserNum(user_num);
 		
 		
 		Integer order_total = 0;
@@ -109,9 +115,9 @@ public class UserService {
 		address[0].getZip_code(),
 		address[0].getDefault_addr(),
 		address[0].getDetail_addr(),
-		card[0].getCard_num(),
-		card[0].getCard_valid_date(),
-		card[0].getCard_type()
+		cards[0].getCard_num(),
+		cards[0].getCard_valid_date(),
+		cards[0].getCard_type()
 		);
 		
 		//Order order = userMapper.getLatestOrderByUserNum();
