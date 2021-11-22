@@ -1,5 +1,8 @@
 package com.dsu2021.pj.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -7,6 +10,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+
+import com.dsu2021.pj.domain.room.dto.RoomDTO;
 import com.dsu2021.pj.dto.UserDTO;
 import com.dsu2021.pj.dto.UserDTO.AddBookReq;
 import com.dsu2021.pj.dto.UserDTO.ModifyBookReq;
@@ -14,6 +19,7 @@ import com.dsu2021.pj.dto.UserDTO.SignUpRes;
 import com.dsu2021.pj.entity.Address;
 import com.dsu2021.pj.entity.Book;
 import com.dsu2021.pj.entity.BookCart;
+import com.dsu2021.pj.entity.Card;
 import com.dsu2021.pj.entity.Cart;
 import com.dsu2021.pj.entity.User;
 import com.dsu2021.pj.service.UserService;
@@ -54,6 +60,7 @@ public class UserController {
 	@GetMapping("detail")
 	public String detailPage(String book_num,HttpSession session, Model model) {
 		model.addAttribute("book",service.getBookByBookNum(book_num));
+		System.out.println("디테일");
 		return "detail";
 	}
 	
@@ -120,6 +127,22 @@ public class UserController {
 		model.addAttribute("list",service.getBookCartsByCartNum(cart.getCart_num()));
 		}
 		return "cart";
+	}
+	
+	@GetMapping("card")
+	public String card (HttpSession session, Model model) {
+		if(session.getAttribute("id") == null) {
+			model.addAttribute("list",service.getBookList(""));
+			model.addAttribute("book_name","");
+			return "bookList";
+		}
+		
+		Card[] cardList = service.getCardList((String)session.getAttribute("id"));
+		
+		if(cardList.length != 0) {
+			model.addAttribute("list",cardList);
+		}
+		return "card";
 	}
 	
 	
@@ -282,6 +305,33 @@ public class UserController {
 		return "myPage";
 	}
 	
+	
+	@PostMapping("addCard")
+	public String addCard(Long card_num, Long user_num, String card_valid_date, String card_type, HttpSession session, Model model) {
+		if(session.getAttribute("id") == null ) {
+			model.addAttribute("list",service.getBookList(""));
+			model.addAttribute("book_name","");
+			return "bookList";
+		}
+		
+		try {
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			Date card_valid_date_paresd = sdf.parse(card_valid_date);
+			service.addCard(card_num,user_num,card_valid_date_paresd,card_type);
+
+			//카드 조회하라고 보내기
+			Card[] cardList = service.getCardList((String)session.getAttribute("id"));
+					
+			if(cardList.length != 0) {
+				model.addAttribute("list",cardList);
+			}
+			return "card";
+		}catch(Exception e) {
+			System.out.println("유효하지 않은 날짜 입력값. 예외 처리 필요");
+		}
+		
+		
+	}
 	
 	
 	

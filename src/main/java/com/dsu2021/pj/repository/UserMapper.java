@@ -28,6 +28,10 @@ public interface UserMapper {
 	public void createOrder(Object object, Long user_num, Object object2, Integer order_total, String zip_code,
 			String default_addr, String detail_addr, Long card_num, Date card_valid_date, String card_type);
 
+	public void createCart(Long user_num);
+	
+	public void addCard(Card card);
+	
 // READ
 	
 	public User[] selectUserByUserNumORID(User user);
@@ -42,7 +46,7 @@ public interface UserMapper {
 	
 	public Cart getCart(Long user_num);
 	
-	public Cart createCart(Long user_num);
+	public Card[] getCardList(Long user_num);
 
 	public Integer checkBookPriceWithBookNum(String book_num);
 	
@@ -51,6 +55,8 @@ public interface UserMapper {
 	public Address[] getAddressByUserNum(Long user_num);
 			
 	public Card[] getCardByUserNum(Long user_num);
+	
+	public Card getCardByCard_num(Long card_num);
 	
 // PATCH
 	

@@ -18,8 +18,11 @@
 		</c:if>
 		
 		<br>
+		
+		
 		장바구니 번호 : ${ cart_num == null ? '':cart_num }<br>
 		장바구니 생성일자 : ${ cart_date == null ? '':cart_date }
+
 				
 		<!-- 목록 -->
 		
@@ -29,21 +32,23 @@
 					<th>장바구니 목록 일련번호</th><th>도서번호</th><th>장바구니 번호</th><th>수량</th><th>가격</th>
 			</thead>
 			<tbody>
-				<c:forEach var="li" items="${list}">
-				<tr>
-					<td>${li.book_cart_num}</td>
-					<td>${li.book_num}</td>
-					<td>${li.cart_num}</td>
-					<td>${li.book_cart_amount}</td>
-					<td>${li.book_cart_price}</td>
-				</tr>
-				</c:forEach>
+				<c:if test="${!empty list}">
+					<c:forEach var="li" items="${list}">
+					<tr>
+						<td>${li.book_cart_num}</td>
+						<td>${li.book_num}</td>
+						<td>${li.cart_num}</td>
+						<td>${li.book_cart_amount}</td>
+						<td>${li.book_cart_price}</td>
+					</tr>
+					</c:forEach>
+				</c:if>
 			</tbody>
 		</table>
 		
 		<input type="submit" value="장바구니로 구매하기">
 		
-		
+
 	
 	</main>
 	

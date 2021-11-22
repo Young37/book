@@ -1,5 +1,7 @@
 package com.dsu2021.pj.service;
 
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.dsu2021.pj.dto.UserDTO.AddBookReq;
@@ -80,6 +82,12 @@ public class UserService {
 		return cart;
 	}
 	
+	public Card[] getCardList(String id) {
+		User user = userMapper.getUserById(id);
+		Card[] cardList = userMapper.getCardList(user.getUser_num());
+		return cardList;
+	}
+	
 	public void buyWithCart(String id, Long user_num, BookCart[] bookCarts) {
 		//없을경우 예외처리 + 카드 주소가 하나가 아닐경우 처리
 		
@@ -124,4 +132,19 @@ public class UserService {
 		
 		userMapper.addToCart(new BookCart(null,Long.parseLong(book_num), cart.getCart_num(),book_cart_amount,price*book_cart_amount));
 	}
+	
+	
+	public void addCard(Long card_num, Long user_num, Date card_valid_date, String card_type) {
+		Card card = userMapper.getCardByCard_num(card_num);
+		if (card == null) {
+			
+			
+			userMapper.addCard(new Card(card_num,user_num,card_valid_date,card_type));
+			
+			
+		}
+	}
+	
+	
+	
 }
