@@ -1,5 +1,6 @@
 package com.dsu2021.pj.service;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -200,6 +201,14 @@ public class UserService {
 					bookCarts[i].getBook_cart_price()//book_order_price
 			));
 		}
+		
+		//월별 판매 기록하기
+		SimpleDateFormat sdf = new SimpleDateFormat ( "yyyyMM");
+		Date now = new Date();
+		String time = sdf.format(now);
+		Integer monthSell = Integer.parseInt(time);
+		
+		
 		
 		//장바구니 비우기
 		userMapper.deleteBookCartByCartNum(bookCarts[0].getCart_num());

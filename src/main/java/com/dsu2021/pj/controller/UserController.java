@@ -314,6 +314,43 @@ public class UserController {
 		return "addBook";
 	}
 	
+	@PostMapping("buy")
+	public String buy(Long[] book_num,HttpSession session,Model model,Book book) {
+		if(session.getAttribute("id") == null ) {
+			model.addAttribute("list",service.getBookList(""));
+			model.addAttribute("book_name","");
+			return "bookList";
+		}
+		
+		Integer book_cart_amount = 1;
+		
+		for (int i = 0 ; i<book_num.length ; i++) {
+			book = service.getBookByBookNum(book_num[i]);
+			if(book_cart_amount > book.getBook_stock() || book.getBook_stock() == 0) {
+				model.addAttribute("list",service.getBookList(""));
+				model.addAttribute("book_name","");
+				return "bookList";
+			}
+		}
+		
+		for (int i = 0 ; i<book_num.length ; i++) {
+			service.addToCart(book_num[i],book_cart_amount,(String)session.getAttribute("id"));
+		}
+		
+		
+		Cart cart = service.getCart((String)session.getAttribute("id"));
+		
+		if(cart != null) {
+			BookCart[] bookCarts = service.getBookCartsByCartNum(cart.getCart_num());
+			service.buyWithCart((String)session.getAttribute("id"),cart.getUser_num(),bookCarts);
+			//책 구매 로직
+		}
+		
+		model.addAttribute("list",service.getBookList(""));
+		model.addAttribute("book_name","");
+		return "bookList";
+	}
+	
 	@PostMapping("addToCart")
 	public String addToCart(Long book_num, Integer book_cart_amount,HttpSession session,Model model,SignUpRes res, Book book) {
 		if(session.getAttribute("id") == null ) {
@@ -412,6 +449,8 @@ public class UserController {
 		
 		return "address";
 	}
+	
+	
 	
 	@PostMapping("deleteOrder")
 	public String deleteOrder(Long order_num, HttpSession session, Model model) {

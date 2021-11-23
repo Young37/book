@@ -36,7 +36,7 @@
 		
 		<!-- 목록 -->
 		
-		<form action="" method="post">
+		<form action="buy" method="post">
 		
 			<table style="width:70%;border:1px solid black;text-align:center">
 				<thead>
@@ -47,7 +47,7 @@
 				<tbody>
 					<c:forEach var="li" items="${list}">
 					<tr>
-						<td><input type="checkbox"></td>
+						<td><input type="checkbox" name="book_num" value="${li.book_num}"></td>
 						<td>${li.book_num}</td>
 						<td><a href="detail?book_num=${li.book_num}">${li.book_name}</a></td>
 						<td>${li.book_stock}</td>
