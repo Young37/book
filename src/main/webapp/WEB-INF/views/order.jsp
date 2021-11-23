@@ -31,7 +31,10 @@
 				<c:if test="${!empty list}">
 					<c:forEach var="li" items="${list}">
 					<tr>
-						<td>${li.order_num}</td>
+						<td><form action="bookCart" method="get">
+							${li.order_num}
+							<input type="hidden" name="order_num" value="${li.order_num}">
+						</form></td>
 						<td>${li.user_num}</td>
 						<td>${li.order_date}</td>
 						<td>${li.order_total}</td>
