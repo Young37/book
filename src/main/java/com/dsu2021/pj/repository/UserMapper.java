@@ -67,6 +67,8 @@ public interface UserMapper {
 
 	public Order[] getOrderList(Long user_num);
 	
+	public BookOrder[] getBookOrderByOrderNum(Long order_num);
+	
 // PATCH
 	
 	public void modifyBook(Book book);
@@ -86,4 +88,8 @@ public interface UserMapper {
 	public void deleteCartByUserNum(Long user_num);
 	
 	public void deleteBookCartByBookCartNum(Long book_cart_num);
+	
+	public void deleteBookOrderByOrderNum(Long order_num);
+	
+	public void deleteOrderByOrderNum(Long order_num);
 }

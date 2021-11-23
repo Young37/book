@@ -98,6 +98,10 @@
 		SELECT * FROM `order` WHERE user_num = #{user_num};
 	</select>
 	
+	<select id = "getBookOrderByOrderNum" resultType="com.dsu2021.pj.entity.BookOrder">
+		SELECT * FROM `book_order` WHERE order_num = #{order_num};
+	</select>
+	
 		<!-- INSERT -->
 
 	<insert id="insertUser">
@@ -180,6 +184,14 @@
 	
 	<delete id = "deleteBookCartByBookCartNum">
 		DELETE FROM book_cart WHERE book_cart_num = #{book_cart_num};
+	</delete>
+	
+	<delete id = "deleteBookOrderByOrderNum">
+		DELETE FROM book_order WHERE order_num = #{order_num};
+	</delete>
+	
+	<delete id = "deleteOrderByOrderNum">
+		DELETE FROM `order` WHERE order_num = #{order_num};
 	</delete>
 		
 <!-- 	

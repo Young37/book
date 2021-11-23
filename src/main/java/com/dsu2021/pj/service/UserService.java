@@ -76,6 +76,11 @@ public class UserService {
 		return orderList;
 	}
 	
+	public BookOrder[] getBookOrderByOrderNum(Long order_num) {
+		BookOrder[] bookOrderList = userMapper.getBookOrderByOrderNum(order_num);
+		return bookOrderList;
+	}
+	
 	public void deleteBookByBookNum(String book_num) {
 		userMapper.deleteBookByBookNum(book_num);
 	}
@@ -227,6 +232,11 @@ public class UserService {
 			
 			
 		}
+	}
+	
+	public void deleteOrder(Long order_num) {
+		userMapper.deleteBookOrderByOrderNum(order_num);
+		userMapper.deleteOrderByOrderNum(order_num);
 	}
 	
 	

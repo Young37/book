@@ -25,14 +25,14 @@
 		<table style="width:70%;border:1px solid black;text-align:center">
 			<thead>
 				<tr>
-					<th>주문번호</th><th>회원번호</th><th>주문일자</th><th>주문 총액</th><th>배송지 우편번호</th><th>배송지 기본주소</th><th>배송지 상세주소</th><th>신용카드 번호</th><th>신용카드 유효기간</th><th>신용카드 종류</th>
+					<th>주문번호</th><th>회원번호</th><th>주문일자</th><th>주문 총액</th><th>배송지 우편번호</th><th>배송지 기본주소</th><th>배송지 상세주소</th><th>신용카드 번호</th><th>신용카드 유효기간</th><th>신용카드 종류</th><th>주문 취소</th>
 			</thead>
 			<tbody>
 				<c:if test="${!empty list}">
 					<c:forEach var="li" items="${list}">
 					<tr>
-						<td><form action="bookCart" method="get">
-							${li.order_num}
+						<td><form action="bookOrder" method="get">
+							<input type="submit" value="${li.order_num}">
 							<input type="hidden" name="order_num" value="${li.order_num}">
 						</form></td>
 						<td>${li.user_num}</td>
@@ -44,6 +44,10 @@
 						<td>${li.order_card_num}</td>
 						<td>${li.order_card_valid_date}</td>
 						<td>${li.order_card_type}</td>
+						<td><form action="deleteOrder" method="post">
+							<input type="submit" value="${li.order_num}">
+							<input type="hidden" name="order_num" value="${li.order_num}">
+						</form></td>
 					</tr>
 					</c:forEach>
 				</c:if>

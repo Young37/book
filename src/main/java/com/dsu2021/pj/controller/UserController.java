@@ -16,6 +16,7 @@ import com.dsu2021.pj.dto.UserDTO.SignUpRes;
 import com.dsu2021.pj.entity.Address;
 import com.dsu2021.pj.entity.Book;
 import com.dsu2021.pj.entity.BookCart;
+import com.dsu2021.pj.entity.BookOrder;
 import com.dsu2021.pj.entity.Card;
 import com.dsu2021.pj.entity.Cart;
 import com.dsu2021.pj.entity.Order;
@@ -175,6 +176,23 @@ public class UserController {
 		}
 		
 		return "address";
+	}
+	
+	@GetMapping("bookOrder")
+	public String bookOrder(Long order_num,HttpSession session, Model model) {
+		if(session.getAttribute("id") == null) {
+			model.addAttribute("list",service.getBookList(""));
+			model.addAttribute("book_name","");
+			return "bookList";
+		}
+		
+		BookOrder[] bookOrderList = service.getBookOrderByOrderNum(order_num);
+		
+		if(bookOrderList.length != 0) {
+			model.addAttribute("list",bookOrderList);
+		}
+		
+		return "bookOrder";
 	}
 	
 	//요청 처리 + 페이지 이동
@@ -395,6 +413,25 @@ public class UserController {
 		return "address";
 	}
 	
+	@PostMapping("deleteOrder")
+	public String deleteOrder(Long order_num, HttpSession session, Model model) {
+		if(session.getAttribute("id") == null ) {
+			model.addAttribute("list",service.getBookList(""));
+			model.addAttribute("book_name","");
+			return "bookList";
+		}
+		
+			
+		service.deleteOrder(order_num);
+
+		//주문 조회하라고 보내기
+		Order[] orderList = service.getOrderList((String)session.getAttribute("id"));
+		
+		if(orderList.length != 0) {
+			model.addAttribute("list",orderList);
+		}
+		return "order";
+	}
 	
 	
 	
