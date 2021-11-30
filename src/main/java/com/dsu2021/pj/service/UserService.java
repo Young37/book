@@ -92,7 +92,7 @@ public class UserService {
 	}
 	
 	public void modifyBook(ModifyBookReq req) {
-		userMapper.modifyBook(new Book(req.getBook_num(),req.getBook_name(),req.getBook_stock(),req.getBook_price()));
+		userMapper.modifyBook(new Book(req.getBook_num(),req.getBook_name(),req.getBook_stock(),req.getBook_price(),req.getBook_point_rate()));
 		BookCart[] bookCarts = userMapper.getBookCartsByBookNum(req.getBook_num());
 		
 		for ( int i = 0 ; i<bookCarts.length; i++) {
@@ -130,7 +130,8 @@ public class UserService {
 	}
 	
 	public void addBook(AddBookReq req) {
-		userMapper.insertBook(new Book(null,req.getBook_name(),req.getBook_stock(),req.getBook_price()));
+		System.out.println(req.getBook_point_rate());
+		userMapper.insertBook(new Book(null,req.getBook_name(),req.getBook_stock(),req.getBook_price(),req.getBook_point_rate()));
 	}
 	
 	public void buyWithCart(Integer point,String id, Long user_num, BookCart[] bookCarts) {
@@ -172,7 +173,8 @@ public class UserService {
 					new Book(book.getBook_num(),
 							book.getBook_name(),
 							newStock,
-							book.getBook_price()
+							book.getBook_price(),
+							book.getBook_point_rate()
 							)
 			);
 		}
@@ -226,6 +228,7 @@ public class UserService {
 		
 		
 		Order order = userMapper.getLatestOrderByUserNum(user_num);
+		user = userMapper.getUserById(id);
 		
 		//주문상세 생성
 		for(int i = 0 ; i < bookCarts.length; i++) {
@@ -236,6 +239,17 @@ public class UserService {
 					bookCarts[i].getBook_cart_amount(),//book_order_amount
 					bookCarts[i].getBook_cart_price()//book_order_price
 			));
+			Book book = userMapper.getBookByBookNum(bookCarts[i].getBook_num());
+			if(book.getBook_point_rate() != null) {
+				Integer newPoint = user.getPoint() + book.getBook_point_rate() * book.getBook_price()/100;
+				userMapper.updatePoint(user_num,newPoint);
+				user = userMapper.getUserById(id);
+			}else if(book.getBook_point_rate() == null) {
+				Integer newPoint = user.getPoint() + 10 * book.getBook_price()/100;
+				userMapper.updatePoint(user_num,newPoint);
+				user = userMapper.getUserById(id);
+			}
+			
 		}
 		
 		//월별 판매 기록하기

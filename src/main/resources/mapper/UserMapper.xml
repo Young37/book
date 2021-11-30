@@ -96,7 +96,7 @@
 	</insert>
 	
 	<insert id="insertBook">
-		INSERT INTO book (book_name,book_stock,book_price) VALUES (#{book_name},#{book_stock},#{book_price});
+		INSERT INTO book (book_name,book_stock,book_price,book_point_rate) VALUES (#{book_name},#{book_stock},#{book_price},#{book_point_rate});
 	</insert>
 	
 	<insert id="createCart">

@@ -17,6 +17,7 @@
 				도서명 : <input type="text" name="book_name" value="${book.book_name}"><br>
 				재고량 : <input type="text" name="book_stock" value="${book.book_stock}"><br>
 				판매가 : <input type="text" name="book_price" value=" ${book.book_price}"><br>
+				적립률 : <input type="number" name="book_point_rate" value=" ${book.book_point_rate}"><br>
 				<input type="submit" value="책 추가">
 			</form>
 		</c:if>
