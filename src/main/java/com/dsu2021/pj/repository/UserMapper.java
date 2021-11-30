@@ -11,6 +11,8 @@ import com.dsu2021.pj.entity.BookCart;
 import com.dsu2021.pj.entity.BookOrder;
 import com.dsu2021.pj.entity.Card;
 import com.dsu2021.pj.entity.Cart;
+import com.dsu2021.pj.entity.Coupon;
+import com.dsu2021.pj.entity.CouponUser;
 import com.dsu2021.pj.entity.Order;
 import com.dsu2021.pj.entity.User;
 
@@ -35,7 +37,12 @@ public interface UserMapper {
 	
 	public void createBook_order(BookOrder bookOrder);
 	
+	public void insertCoupon(Coupon coupon);
+	
+	public void insertCouponUser(CouponUser couponUser);
+	
 // READ
+	public User getUserByUserNum(Long user_num);
 	
 	public User[] selectUserByUserNumORID(User user);
 	
@@ -69,12 +76,14 @@ public interface UserMapper {
 	
 	public BookOrder[] getBookOrderByOrderNum(Long order_num);
 	
+	public CouponUser[] getCouponUserByUserNum(Long user_num);
 // PATCH
 	
 	public void modifyBook(Book book);
 	
 	public void addjustBookCartPrice(Long book_cart_num, Integer book_cart_price);
 	
+	public void updatePoint(Long user_num, Integer point);
 // PUT
 	
 	

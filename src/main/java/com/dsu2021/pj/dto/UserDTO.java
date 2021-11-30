@@ -49,6 +49,7 @@ public class UserDTO {
 		private String defaultAddr;
 		private String detailAddr;
 		private String zipCode;
+		private Long invite_user_num;
 	}
 	
 	@Data

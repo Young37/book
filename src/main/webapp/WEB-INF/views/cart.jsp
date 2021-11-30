@@ -46,7 +46,9 @@
 			</tbody>
 		</table>
 		
+		
 		<form action="buyWithCart" method="post">
+			사용할 포인트 <input type ="number" name="point" value="0">
 			<input type="submit" value="장바구니로 구매하기">
 		</form>
 

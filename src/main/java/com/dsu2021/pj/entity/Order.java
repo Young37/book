@@ -18,4 +18,5 @@ public class Order {
 	private Long order_card_num;
 	private Date order_card_valid_date;
 	private String order_card_type;
+	private Integer order_discount;
 }

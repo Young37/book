@@ -16,6 +16,7 @@
 	<nav><a href="card">카드 보기</a></nav>
 	<nav><a href="cart">장바구니 보기</a></nav>
 	<nav><a href="order">주문 내역 보기</a></nav>
+	<nav><a href="coupon">내 쿠폰 보기</a></nav>
 	
 </body>
 </html>

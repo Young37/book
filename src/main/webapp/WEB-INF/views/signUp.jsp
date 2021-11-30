@@ -26,6 +26,9 @@ span {width:85px;display:inline-block}
 		<span>상세주소 : </span><input type="text" name="detailAddr"><br>
 		<span>우편번호 : </span><input type="text" name="zipCode"><br>
 		<input type="submit">
+		<br>
+		추천인<br>
+		<input name="invite_user_num" type="number">
 		
 		
 	</form>

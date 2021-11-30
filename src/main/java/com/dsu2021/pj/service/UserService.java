@@ -26,7 +26,7 @@ public class UserService {
 	private UserMapper userMapper;
 	
 	public boolean dupleCheckUser(SignUpReq req) {
-		User users[] = userMapper.selectUserByUserNumORID(new User(req.getUserNum(),null,req.getId(),null));
+		User users[] = userMapper.selectUserByUserNumORID(new User(req.getUserNum(),null,req.getId(),null,null,0));
 		if (users.length == 0)
 			return false;
 		else{
@@ -82,6 +82,11 @@ public class UserService {
 		return bookOrderList;
 	}
 	
+	public User getUserByUserNum(Long user_num) {
+		User user = userMapper.getUserByUserNum(user_num);
+		return user;
+	}
+	
 	public void deleteBookByBookNum(String book_num) {
 		userMapper.deleteBookByBookNum(book_num);
 	}
@@ -110,7 +115,7 @@ public class UserService {
 	}
 	
 	public boolean validCheckUser(SignInReq req) {
-		User user = userMapper.selectUserByIDAndPassword(new User(null,null,req.getId(),req.getPassword()));
+		User user = userMapper.selectUserByIDAndPassword(new User(null,null,req.getId(),req.getPassword(),null,null));
 		
 		if(user == null) {
 			return false;
@@ -119,12 +124,16 @@ public class UserService {
 		}
 	}
 	
+	public void add1000point(User invite_user) {
+		Integer newPoint = invite_user.getPoint() + 1000;
+		userMapper.updatePoint(invite_user.getUser_num(),newPoint);
+	}
+	
 	public void addBook(AddBookReq req) {
 		userMapper.insertBook(new Book(null,req.getBook_name(),req.getBook_stock(),req.getBook_price()));
 	}
 	
-	
-	public void buyWithCart(String id, Long user_num, BookCart[] bookCarts) {
+	public void buyWithCart(Integer point,String id, Long user_num, BookCart[] bookCarts) {
 		if(bookCarts.length == 0 ) return;
 		
 		// 준비
@@ -168,27 +177,54 @@ public class UserService {
 			);
 		}
 		
-		
 		//주문 총액 계산
 		Integer order_total = 0;
 		for( int i = 0 ; i < bookCarts.length ; i++ ) {
 			order_total += bookCarts[i].getBook_cart_price();
 		}
-		//주문 생성
-		userMapper.createOrder(
-				new Order(
-						null, // order_num
-						user_num, // user_num
-						null, // order_date
-						order_total, // order_total
-						addressList[0].getZip_code(), // order_zip_code
-						addressList[0].getDefault_addr(), // order_default_addr
-						addressList[0].getDetail_addr(), // order_detail_addr
-						cardList[0].getCard_num(), // order_card_num
-						cardList[0].getCard_valid_date(), // order_card_valid_date
-						cardList[0].getCard_type()// order_card_type
-				)
-		);
+		
+		// null 안됨. 0미만 안됨. 포인트 있어야 됨.
+		if( point != null  && point >= 0 && user.getPoint() >= point) {
+			
+			//포인트 값이 정상적일 때 주문 생성
+			Integer newPoint = user.getPoint() - point;
+			userMapper.updatePoint(user_num,newPoint);
+			userMapper.createOrder(
+					new Order(
+							null, // order_num
+							user_num, // user_num
+							null, // order_date
+							order_total, // order_total
+							addressList[0].getZip_code(), // order_zip_code
+							addressList[0].getDefault_addr(), // order_default_addr
+							addressList[0].getDetail_addr(), // order_detail_addr
+							cardList[0].getCard_num(), // order_card_num
+							cardList[0].getCard_valid_date(), // order_card_valid_date
+							cardList[0].getCard_type(),// order_card_type
+							point
+					)
+			);
+		}else {
+			
+			//포인트 값이 비정상적일 때 주문 생성
+			userMapper.createOrder(
+					new Order(
+							null, // order_num
+							user_num, // user_num
+							null, // order_date
+							order_total, // order_total
+							addressList[0].getZip_code(), // order_zip_code
+							addressList[0].getDefault_addr(), // order_default_addr
+							addressList[0].getDetail_addr(), // order_detail_addr
+							cardList[0].getCard_num(), // order_card_num
+							cardList[0].getCard_valid_date(), // order_card_valid_date
+							cardList[0].getCard_type(),// order_card_type
+							0
+					)
+			);
+		}
+		
+		
 		Order order = userMapper.getLatestOrderByUserNum(user_num);
 		
 		//주문상세 생성

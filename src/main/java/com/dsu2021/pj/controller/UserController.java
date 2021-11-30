@@ -19,6 +19,7 @@ import com.dsu2021.pj.entity.BookCart;
 import com.dsu2021.pj.entity.BookOrder;
 import com.dsu2021.pj.entity.Card;
 import com.dsu2021.pj.entity.Cart;
+import com.dsu2021.pj.entity.CouponUser;
 import com.dsu2021.pj.entity.Order;
 import com.dsu2021.pj.entity.User;
 import com.dsu2021.pj.service.UserService;
@@ -100,6 +101,14 @@ public class UserController {
 		return "userManage";
 	}
 	
+	@GetMapping("couponManage")
+	public String couponManage (HttpSession session) {
+		if(!session.getAttribute("id").equals("admin")) {
+			return "login";
+		}
+		return "couponManage";
+	}
+	
 	@GetMapping("addBook")
 	public String addBookPage (HttpSession session, Model model) {
 		if(!session.getAttribute("id").equals("admin")) {
@@ -178,6 +187,24 @@ public class UserController {
 		return "address";
 	}
 	
+	@GetMapping("coupon")
+	public String coupon(HttpSession session, Model model) {
+		if(session.getAttribute("id") == null) {
+			model.addAttribute("list",service.getBookList(""));
+			model.addAttribute("book_name","");
+			return "bookList";
+		}
+		
+		User user = service.getUserById((String)session.getAttribute("id"));
+		//CouponUser[] couponUserList = service.getCouponUserByUserNum(user.getUser_num());
+		
+		//if(couponUserList.length != 0) {
+		//	model.addAttribute("list",couponUserList);
+		//}
+		
+		return "coupon";
+	}
+	
 	@GetMapping("bookOrder")
 	public String bookOrder(Long order_num,HttpSession session, Model model) {
 		if(session.getAttribute("id") == null) {
@@ -200,51 +227,64 @@ public class UserController {
 	@PostMapping("signUp")
 	public String signUp(UserDTO.SignUpReq req, UserDTO.SignUpRes res, HttpSession session) {
 		
-		System.out.println("-------------------------");
-		System.out.println("null입니까?");
-		System.out.println(req.getUserNum() == null);
-		System.out.println(req.getName() == null);
-		System.out.println(req.getId() == null);
-		System.out.println(req.getPassword() == null);
-		System.out.println("-------------------------");
-		System.out.println("값은?");
-		System.out.println(req.getUserNum());
-		System.out.println(req.getName());
-		System.out.println(req.getId());
-		System.out.println(req.getPassword());
-		System.out.println("입니다.");
-		
-		
-		if(req.getUserNum() == null || req.getName() == "" || req.getId() == "" || req.getPassword() == "") {
+		// 필수정보 입력 안했을 때
+		// userNum --> null
+		// name --> 공백
+		// id --> 공백
+		// password --> 공백
+		if(req.getUserNum() == null || req.getName() == "" || req.getId() == "" || req.getPassword() == "") { //
 			res.setErrorMsg("필수 입력값을 채우지 않았습니다.");
 			return "signUp";
 		}
+		
+		// userNum이 0이하이면 안됨
 		else if(req.getUserNum() <= 0 ) {
 			res.setErrorMsg("유효하지 않은 입력값입니다.");
 			return "signUp";
 		}
+		
+		// 여기까지 왔으면 정상 처리입니다. (userNum/id 중복처리는 남음)
+		
+		// CASE 1 : 주소 입력 전부 비워둔 경우
 		else if((req.getDefaultAddr() == "" && req.getDetailAddr() == "" && req.getZipCode() == "")){
 			if(service.dupleCheckUser(req))
 			{
-				res.setErrorMsg("이미 있는 회원번호 또는 아이디입니다.");
+				res.setErrorMsg("이미 있는 회원번호 또는 아이디입니다."); // userNum/id 중복체크
 				return "signUp";
 			}
-			service.addUser(new User(req.getUserNum(),req.getName(),req.getId(),req.getPassword()));
+			
+			User inviteUser = service.getUserByUserNum(req.getInvite_user_num()); //초대유저 존재하는지 가져오기
+			if(inviteUser == null)
+				service.addUser(new User(req.getUserNum(),req.getName(),req.getId(),req.getPassword(),null,0));// 존재하지 않음
+			else {
+				service.addUser(new User(req.getUserNum(),req.getName(),req.getId(),req.getPassword(),inviteUser.getUser_num(),0));
+				service.add1000point(inviteUser);
+			}
+			
 			session.setAttribute("id",req.getId());
 			return "login";
 		}
+		// CASE 2 : 주소 입력 전부 채운 경우
 		else if((!req.getDefaultAddr().equals("") && !req.getDetailAddr().equals("") && !req.getZipCode().equals(""))) {
 			if(service.dupleCheckUser(req))
 			{
-				res.setErrorMsg("이미 있는 회원번호 또는 아이디입니다.");
+				res.setErrorMsg("이미 있는 회원번호 또는 아이디입니다."); // userNum/id 중복체크
 				return "signUp";
 			}
-			service.addUser(new User(req.getUserNum(),req.getName(),req.getId(),req.getPassword()));
+			
+			User inviteUser = service.getUserByUserNum(req.getInvite_user_num()); //초대유저 존재하는지 가져오기
+			if(inviteUser == null)
+				service.addUser(new User(req.getUserNum(),req.getName(),req.getId(),req.getPassword(),null,0));// 존재하지 않음
+			else {
+				service.addUser(new User(req.getUserNum(),req.getName(),req.getId(),req.getPassword(),inviteUser.getUser_num(),0));
+				service.add1000point(inviteUser);
+			}
 			
 			service.addAddress(new Address(null,req.getUserNum(),req.getZipCode(),req.getDefaultAddr(),req.getDetailAddr()));
 			session.setAttribute("id",req.getId());
 			return "login";
 		}
+		// CASE 3 : 주소를 일부만 입력
 		else {
 			res.setErrorMsg("주소를 일부만 입력하셨습니다.");
 			return "signUp";
@@ -314,42 +354,68 @@ public class UserController {
 		return "addBook";
 	}
 	
-	@PostMapping("buy")
-	public String buy(Long[] book_num,HttpSession session,Model model,Book book) {
-		if(session.getAttribute("id") == null ) {
+	@PostMapping("addCoupon")
+	public String addCoupon(String coupon_name,Integer coupon_discount_rate, Integer coupon_discount_price, String coupon_expire_date,  HttpSession session,Model model) {
+		if(!session.getAttribute("id").equals("admin")) {
 			model.addAttribute("list",service.getBookList(""));
 			model.addAttribute("book_name","");
 			return "bookList";
 		}
 		
-		Integer book_cart_amount = 1;
 		
-		for (int i = 0 ; i<book_num.length ; i++) {
-			book = service.getBookByBookNum(book_num[i]);
-			if(book_cart_amount > book.getBook_stock() || book.getBook_stock() == 0) {
-				model.addAttribute("list",service.getBookList(""));
-				model.addAttribute("book_name","");
-				return "bookList";
-			}
-		}
-		
-		for (int i = 0 ; i<book_num.length ; i++) {
-			service.addToCart(book_num[i],book_cart_amount,(String)session.getAttribute("id"));
-		}
-		
-		
-		Cart cart = service.getCart((String)session.getAttribute("id"));
-		
-		if(cart != null) {
-			BookCart[] bookCarts = service.getBookCartsByCartNum(cart.getCart_num());
-			service.buyWithCart((String)session.getAttribute("id"),cart.getUser_num(),bookCarts);
-			//책 구매 로직
-		}
-		
-		model.addAttribute("list",service.getBookList(""));
-		model.addAttribute("book_name","");
-		return "bookList";
+
+		return "couponManage";
 	}
+	
+	@PostMapping("addCouponToUser")
+	public String addCouponToUser(HttpSession session,Model model) {
+		if(!session.getAttribute("id").equals("admin")) {
+			model.addAttribute("list",service.getBookList(""));
+			model.addAttribute("book_name","");
+			return "bookList";
+		}
+		
+		
+		
+		return "couponManage";
+	}
+	
+//	@PostMapping("buy")
+//	public String buy(Integer point,Long[] book_num,HttpSession session,Model model,Book book) {
+//		if(session.getAttribute("id") == null ) {
+//			model.addAttribute("list",service.getBookList(""));
+//			model.addAttribute("book_name","");
+//			return "bookList";
+//		}
+//		
+//		Integer book_cart_amount = 1;
+//		
+//		for (int i = 0 ; i<book_num.length ; i++) {
+//			book = service.getBookByBookNum(book_num[i]);
+//			if(book_cart_amount > book.getBook_stock() || book.getBook_stock() == 0) {
+//				model.addAttribute("list",service.getBookList(""));
+//				model.addAttribute("book_name","");
+//				return "bookList";
+//			}
+//		}
+//		
+//		for (int i = 0 ; i<book_num.length ; i++) {
+//			service.addToCart(book_num[i],book_cart_amount,(String)session.getAttribute("id"));
+//		}
+//		
+//		
+//		Cart cart = service.getCart((String)session.getAttribute("id"));
+//		
+//		if(cart != null) {
+//			BookCart[] bookCarts = service.getBookCartsByCartNum(cart.getCart_num());
+//			service.buyWithCart(point,(String)session.getAttribute("id"),cart.getUser_num(),bookCarts);
+//			//책 구매 로직
+//		}
+//		
+//		model.addAttribute("list",service.getBookList(""));
+//		model.addAttribute("book_name","");
+//		return "bookList";
+//	}
 	
 	@PostMapping("addToCart")
 	public String addToCart(Long book_num, Integer book_cart_amount,HttpSession session,Model model,SignUpRes res, Book book) {
@@ -373,7 +439,7 @@ public class UserController {
 	}
 	
 	@PostMapping("buyWithCart")
-	public String buyWithCart(HttpSession session,Model model){
+	public String buyWithCart(Integer point, HttpSession session,Model model){
 		if(session.getAttribute("id") == null ) {
 			model.addAttribute("list",service.getBookList(""));
 			model.addAttribute("book_name","");
@@ -384,7 +450,7 @@ public class UserController {
 		
 		if(cart != null) {
 			BookCart[] bookCarts = service.getBookCartsByCartNum(cart.getCart_num());
-			service.buyWithCart((String)session.getAttribute("id"),cart.getUser_num(),bookCarts);
+			service.buyWithCart(point,(String)session.getAttribute("id"),cart.getUser_num(),bookCarts);
 			//책 구매 로직
 		}
 		
@@ -471,6 +537,7 @@ public class UserController {
 		}
 		return "order";
 	}
+	
 	
 	
 	
