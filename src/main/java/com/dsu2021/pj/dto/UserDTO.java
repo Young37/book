@@ -25,6 +25,7 @@ public class UserDTO {
 		private String book_name;
 		private Integer book_stock;
 		private Integer book_price;
+		private Integer book_point_rate;
 	}
 	
 	@Data
@@ -34,6 +35,7 @@ public class UserDTO {
 		private String book_name;
 		private Integer book_stock;
 		private Integer book_price;
+		private Integer book_point_rate;
 	}
 	
 	@Data
@@ -49,6 +51,7 @@ public class UserDTO {
 		private String defaultAddr;
 		private String detailAddr;
 		private String zipCode;
+		private Long invite_user_num;
 	}
 	
 	@Data

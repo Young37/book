@@ -8,14 +8,15 @@
 <title>내 정보</title>
 </head>
 <body>
-	<nav><a href="/">돌아가기</a></nav>
-	<c:if test="${empty sessionScope.id}">
+	<c:if test="${!empty sessionScope.id}">
 		${sessionScope.id}님
 	</c:if>
-	<nav><a href="">주소 보기</a></nav>
-	<nav><a href="/">카드 보기</a></nav>
+	<nav><a href="/">돌아가기</a></nav>
+	<nav><a href="address">주소 보기</a></nav>
+	<nav><a href="card">카드 보기</a></nav>
 	<nav><a href="cart">장바구니 보기</a></nav>
-	<nav><a href="/">주문 내역 보기</a></nav>
+	<nav><a href="order">주문 내역 보기</a></nav>
+	<nav><a href="coupon">내 쿠폰 보기</a></nav>
 	
 </body>
 </html>

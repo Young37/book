@@ -5,37 +5,6 @@
 
 
 <mapper namespace="com.dsu2021.pj.repository.UserMapper">
-
-	<!-- SELECT -->
-
-<!-- 	<resultMap type="com.dsu2021.pj.domain.room.dto.RoomDTO$RoomRes" id="roomResult">
-		<id property="roomIndex" column="room_index"></id>
-		<result property="userIndex" column="user_index"></result>
-		<result property="addressIndex" column="address_index"></result>
-		<result property="categoryIndex" column="category_index"></result>
-		<result property="name" column="name"></result>
-		<result property="price" column="price"></result>
-		<result property="cleanPrice" column="clean_price"></result>
-		<result property="maxPerson" column="max_person"></result>
-		<result property="content" column="content"></result>
-	</resultMap> -->
-	
-<!-- 	<select id = "getLatestRoomIndex" resultType="Long">
- 		SELECT room_index FROM room WHERE
-		address_index = #{addressIndex} AND
-		category_index = #{categoryIndex} AND
-		user_index = #{userIndex} AND
-		name = #{name} AND
-		price = #{price} AND
-		clean_price = #{cleanPrice} AND
-		max_person = #{maxPerson} AND
-		content = #{content}
-		ORDER BY room_index DESC LIMIT 0,1;
-	</select>
-	
-	<select id = "getUnAvailableDatesByRoomIndex" resultType="Date">
-		SELECT date FROM unavailable_date WHERE room_index = #{roomIndex} ORDER BY date ASC;
-	</select> -->
 	
 	<select id = "selectUserByUserNumORID" resultType="com.dsu2021.pj.entity.User">
 		SELECT * FROM user WHERE user_num = #{user_num} OR id = #{id} ;
@@ -44,7 +13,6 @@
 	<select id = "selectUserByIDAndPassword" resultType="com.dsu2021.pj.entity.User">
 		SELECT * FROM user WHERE id = #{id} AND password = #{password} ;
 	</select>
-	
 	
 	<select id = "getBookList" resultType="com.dsu2021.pj.entity.Book">
 		SELECT * FROM book WHERE book_name LIKE '%${book_name}%';
@@ -62,13 +30,65 @@
 		SELECT * FROM cart WHERE user_num = #{user_num};
 	</select>
 	
+	<select id = "getCardList" resultType="com.dsu2021.pj.entity.Card">
+		SELECT * FROM card WHERE user_num = #{user_num};
+	</select>
+	
 	<select id = "checkBookPriceWithBookNum" resultType="Integer">
 		SELECT book_price FROM book WHERE book_num = #{book_num};
 	</select>
+	
+	<select id="getBookCartsByCartNum" resultType="com.dsu2021.pj.entity.BookCart">
+		SELECT * FROM book_cart WHERE cart_num = #{cart_num};
+	</select>
+	
+	<select id="getBookCartsByBookNum" resultType="com.dsu2021.pj.entity.BookCart">
+		SELECT * FROM book_cart WHERE book_num = #{book_num};
+	</select>
+	
+	<select id="getAddressByUserNum" resultType="com.dsu2021.pj.entity.Address">
+		SELECT * FROM address WHERE user_num = #{user_num};
+	</select>
+		
+	<select id="getCardsByUserNum" resultType="com.dsu2021.pj.entity.Card">
+		SELECT * FROM card WHERE user_num = #{user_num};
+	</select>
+	
+	<select id="getCardByCard_num" resultType="com.dsu2021.pj.entity.Card">
+		SELECT * FROM card WHERE card_num = #{card_num};
+	</select>
+	
+	<select id="getLatestOrderByUserNum" resultType="com.dsu2021.pj.entity.Order">
+		SELECT * FROM `order` WHERE user_num = #{user_num} ORDER BY order_num desc limit 0,1;
+	</select>
+	
+	<select id = "getOrderList" resultType="com.dsu2021.pj.entity.Order">
+		SELECT * FROM `order` WHERE user_num = #{user_num};
+	</select>
+	
+	<select id = "getBookOrderByOrderNum" resultType="com.dsu2021.pj.entity.BookOrder">
+		SELECT * FROM `book_order` WHERE order_num = #{order_num};
+	</select>
+	
+	<select id = "getUserByUserNum" resultType="com.dsu2021.pj.entity.User">
+		SELECT * FROM `user` WHERE user_num = #{user_num};
+	</select>
+	
+	<select id = "getCouponUserByUserNum" resultType="com.dsu2021.pj.entity.CouponUser">
+		SELECT * FROM `coupon_user` WHERE user_num = #{user_num};
+	</select>
 		<!-- INSERT -->
+		
+	<insert id="insertCoupon">
+		INSERT INTO coupon (coupon_name,coupon_discount_rate,coupon_discount_price,coupon_expire_date) VALUES (#{coupon_name},#{coupon_discount_rate},#{coupon_discount_price},#{coupon_expire_date});
+	</insert>
+	
+	<insert id="insertCouponUser">
+		INSERT INTO coupon_user (coupon_num,user_num) VALUES (#{coupon_num},#{user_num});
+	</insert>
 
 	<insert id="insertUser">
-		INSERT INTO user VALUES (${user_num},#{name},#{id},#{password});
+		INSERT INTO user VALUES (#{user_num},#{name},#{id},#{password},#{invite_user_num},#{point});
 	</insert>
 	
 	<insert id="insertAddress">
@@ -76,7 +96,7 @@
 	</insert>
 	
 	<insert id="insertBook">
-		INSERT INTO book (book_name,book_stock,book_price) VALUES (#{book_name},#{book_stock},#{book_price});
+		INSERT INTO book (book_name,book_stock,book_price,book_point_rate) VALUES (#{book_name},#{book_stock},#{book_price},#{book_point_rate});
 	</insert>
 	
 	<insert id="createCart">
@@ -84,26 +104,20 @@
 	</insert>
 	
 	<insert id="addToCart">
-		INSERT INTO book_cart (book_num, basket_num, book_basket_amount, book_basket_price) VALUES (#{book_num},#{basket_num},#{book_basket_amount},#{book_basket_price});
-	</insert>
-		
-<!-- 		
-	<insert id = "insertAddress">
-		INSERT INTO room_address (si_do,si_gun_gu,eup_myeon_dong,road_name,detail_address)
-		VALUES (#{siDo},#{siGunGu},#{eupMyeonDong},#{roadName},#{detailAddress});
+		INSERT INTO book_cart (book_num, cart_num, book_cart_amount, book_cart_price) VALUES (#{book_num},#{cart_num},#{book_cart_amount},#{book_cart_price});
 	</insert>
 	
-	<insert id = "insertCategory">
-		INSERT INTO category (location,kind) VALUES (#{location},#{kind});
+	<insert id="createOrder">
+		INSERT INTO `order` (user_num,order_total,order_zip_code,order_default_addr,order_detail_addr,order_card_num,order_card_valid_date,order_card_type,order_discount) VALUES (#{user_num},#{order_total},#{order_zip_code},#{order_default_addr},#{order_detail_addr},#{order_card_num},#{order_card_valid_date},#{order_card_type},#{order_discount});
 	</insert>
 	
-	<insert id = "insertRoom">
-		INSERT INTO room 
-		(room_index,address_index,category_index,user_index,name,price,clean_price,max_person,content) 
-		VALUES (#{roomIndex},#{addressIndex},#{categoryIndex},#{userIndex},#{name},#{price},#{cleanPrice},#{maxPerson},#{content});
+	<insert id="addCard">
+		INSERT INTO card VALUES (#{card_num},#{user_num},#{card_valid_date},#{card_type});
 	</insert>
 	
-	 -->
+	<insert id="createBook_order">
+		INSERT INTO book_order (order_num,book_num,book_order_amount,book_order_price) VALUES (#{order_num},#{book_num},#{book_order_amount},#{book_order_price});
+	</insert>
 	 
 	 <!-- UPDATE -->
 	 
@@ -111,20 +125,38 @@
 	 	UPDATE book SET book_name = #{book_name} ,book_stock = #{book_stock},book_price = #{book_price} WHERE book_num = #{book_num};
 	 </update>
 	 
+	 <update id="addjustBookCartPrice">
+	 	UPDATE book_cart SET book_cart_price = #{book_cart_price} WHERE book_cart_num = #{book_cart_num};
+	 </update>
 	 
+	 <update id = "updatePoint">
+		UPDATE user SET point = #{point} WHERE user_num = #{user_num};
+	</update>
 	 
-		<!-- DELETE -->
+	<!-- DELETE -->
 		
-		<delete id = "deleteBookByBookNum">
-			DELETE FROM book WHERE book_num = #{book_num};
-		</delete>
+	<delete id = "deleteBookByBookNum">
+		DELETE FROM book WHERE book_num = #{book_num};
+	</delete>
 		
-<!-- 	<delete id = "deleteUnAvailableDateByRoomIndex">
-		DELETE FROM unavailable_date WHERE room_index = #{roomIndex};
+	<delete id = "deleteBookCartByCartNum">
+		DELETE FROM book_cart WHERE cart_num = #{cart_num};
 	</delete>
 	
-	<delete id = "deleteUnAvailableDateByRoomIndexAndInputDate">
-		DELETE FROM unavailable_date WHERE room_index = #{roomIndex} AND date = #{inputDate};
-	</delete> -->
+	<delete id = "deleteCartByUserNum">
+		DELETE FROM cart WHERE user_num = #{user_num};
+	</delete>
+	
+	<delete id = "deleteBookCartByBookCartNum">
+		DELETE FROM book_cart WHERE book_cart_num = #{book_cart_num};
+	</delete>
+	
+	<delete id = "deleteBookOrderByOrderNum">
+		DELETE FROM book_order WHERE order_num = #{order_num};
+	</delete>
+	
+	<delete id = "deleteOrderByOrderNum">
+		DELETE FROM `order` WHERE order_num = #{order_num};
+	</delete>
 
 </mapper>

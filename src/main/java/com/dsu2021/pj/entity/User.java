@@ -1,7 +1,5 @@
 package com.dsu2021.pj.entity;
 
-import java.util.Date;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -12,4 +10,6 @@ public class User {
 	private String name;
 	private String id;
 	private String password;
+	private Long invite_user_num;
+	private Integer point;
 }

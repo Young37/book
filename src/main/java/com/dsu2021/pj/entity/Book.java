@@ -12,4 +12,5 @@ public class Book {
 	private String book_name;
 	private Integer book_stock;
 	private Integer book_price;
+	private Integer book_point_rate;
 }
