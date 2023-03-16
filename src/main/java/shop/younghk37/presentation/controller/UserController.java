@@ -1,4 +1,4 @@
-package com.dsu2021.pj.controller;
+package shop.younghk37.presentation.controller;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -9,19 +9,19 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import com.dsu2021.pj.dto.UserDTO;
-import com.dsu2021.pj.dto.UserDTO.AddBookReq;
-import com.dsu2021.pj.dto.UserDTO.ModifyBookReq;
-import com.dsu2021.pj.dto.UserDTO.SignUpRes;
-import com.dsu2021.pj.entity.Address;
-import com.dsu2021.pj.entity.Book;
-import com.dsu2021.pj.entity.BookCart;
-import com.dsu2021.pj.entity.BookOrder;
-import com.dsu2021.pj.entity.Card;
-import com.dsu2021.pj.entity.Cart;
-import com.dsu2021.pj.entity.Order;
-import com.dsu2021.pj.entity.User;
-import com.dsu2021.pj.service.UserService;
+import shop.younghk37.presentation.dto.UserDTO;
+import shop.younghk37.presentation.dto.UserDTO.AddBookReq;
+import shop.younghk37.presentation.dto.UserDTO.ModifyBookReq;
+import shop.younghk37.presentation.dto.UserDTO.SignUpRes;
+import shop.younghk37.domain.entity.Address;
+import shop.younghk37.domain.entity.Book;
+import shop.younghk37.domain.entity.BookCart;
+import shop.younghk37.domain.entity.BookOrder;
+import shop.younghk37.domain.entity.Card;
+import shop.younghk37.domain.entity.Cart;
+import shop.younghk37.domain.entity.Order;
+import shop.younghk37.domain.entity.User;
+import shop.younghk37.application.service.UserService;
 
 @Controller
 public class UserController {

@@ -1,4 +1,4 @@
-package com.dsu2021.pj.entity;
+package shop.younghk37.domain.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

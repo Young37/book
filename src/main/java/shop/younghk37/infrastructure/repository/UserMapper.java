@@ -1,20 +1,18 @@
-package com.dsu2021.pj.repository;
-
-import java.util.Date;
+package shop.younghk37.infrastructure.repository;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
-import com.dsu2021.pj.entity.Address;
-import com.dsu2021.pj.entity.Book;
-import com.dsu2021.pj.entity.BookCart;
-import com.dsu2021.pj.entity.BookOrder;
-import com.dsu2021.pj.entity.Card;
-import com.dsu2021.pj.entity.Cart;
-import com.dsu2021.pj.entity.Coupon;
-import com.dsu2021.pj.entity.CouponUser;
-import com.dsu2021.pj.entity.Order;
-import com.dsu2021.pj.entity.User;
+import shop.younghk37.domain.entity.Address;
+import shop.younghk37.domain.entity.Book;
+import shop.younghk37.domain.entity.BookCart;
+import shop.younghk37.domain.entity.BookOrder;
+import shop.younghk37.domain.entity.Card;
+import shop.younghk37.domain.entity.Cart;
+import shop.younghk37.domain.entity.Coupon;
+import shop.younghk37.domain.entity.CouponUser;
+import shop.younghk37.domain.entity.Order;
+import shop.younghk37.domain.entity.User;
 
 @Mapper
 @Repository

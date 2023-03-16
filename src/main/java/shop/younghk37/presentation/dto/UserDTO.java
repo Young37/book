@@ -1,4 +1,4 @@
-package com.dsu2021.pj.dto;
+package shop.younghk37.presentation.dto;
 
 import java.util.Date;
 import lombok.AllArgsConstructor;

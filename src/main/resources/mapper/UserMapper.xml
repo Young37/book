@@ -4,33 +4,33 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 
-<mapper namespace="com.dsu2021.pj.repository.UserMapper">
+<mapper namespace="shop.younghk37.infrastructure.repository.UserMapper">
 	
-	<select id = "selectUserByUserNumORID" resultType="com.dsu2021.pj.entity.User">
+	<select id = "selectUserByUserNumORID" resultType="shop.younghk37.domain.entity.User">
 		SELECT * FROM user WHERE user_num = #{user_num} OR id = #{id} ;
 	</select>
 	
-	<select id = "selectUserByIDAndPassword" resultType="com.dsu2021.pj.entity.User">
+	<select id = "selectUserByIDAndPassword" resultType="shop.younghk37.domain.entity.User">
 		SELECT * FROM user WHERE id = #{id} AND password = #{password} ;
 	</select>
 	
-	<select id = "getBookList" resultType="com.dsu2021.pj.entity.Book">
+	<select id = "getBookList" resultType="shop.younghk37.domain.entity.Book">
 		SELECT * FROM book WHERE book_name LIKE '%${book_name}%';
 	</select>
 	
-	<select id = "getBookByBookNum" resultType="com.dsu2021.pj.entity.Book">
+	<select id = "getBookByBookNum" resultType="shop.younghk37.domain.entity.Book">
 		SELECT * FROM book WHERE book_num = #{book_num};
 	</select>
 	
-	<select id = "getUserById" resultType="com.dsu2021.pj.entity.User">
+	<select id = "getUserById" resultType="shop.younghk37.domain.entity.User">
 		SELECT * FROM user WHERE id = #{id};
 	</select>
 	
-	<select id = "getCart" resultType="com.dsu2021.pj.entity.Cart">
+	<select id = "getCart" resultType="shop.younghk37.domain.entity.Cart">
 		SELECT * FROM cart WHERE user_num = #{user_num};
 	</select>
 	
-	<select id = "getCardList" resultType="com.dsu2021.pj.entity.Card">
+	<select id = "getCardList" resultType="shop.younghk37.domain.entity.Card">
 		SELECT * FROM card WHERE user_num = #{user_num};
 	</select>
 	
@@ -38,43 +38,43 @@
 		SELECT book_price FROM book WHERE book_num = #{book_num};
 	</select>
 	
-	<select id="getBookCartsByCartNum" resultType="com.dsu2021.pj.entity.BookCart">
+	<select id="getBookCartsByCartNum" resultType="shop.younghk37.domain.entity.BookCart">
 		SELECT * FROM book_cart WHERE cart_num = #{cart_num};
 	</select>
 	
-	<select id="getBookCartsByBookNum" resultType="com.dsu2021.pj.entity.BookCart">
+	<select id="getBookCartsByBookNum" resultType="shop.younghk37.domain.entity.BookCart">
 		SELECT * FROM book_cart WHERE book_num = #{book_num};
 	</select>
 	
-	<select id="getAddressByUserNum" resultType="com.dsu2021.pj.entity.Address">
+	<select id="getAddressByUserNum" resultType="shop.younghk37.domain.entity.Address">
 		SELECT * FROM address WHERE user_num = #{user_num};
 	</select>
 		
-	<select id="getCardsByUserNum" resultType="com.dsu2021.pj.entity.Card">
+	<select id="getCardsByUserNum" resultType="shop.younghk37.domain.entity.Card">
 		SELECT * FROM card WHERE user_num = #{user_num};
 	</select>
 	
-	<select id="getCardByCard_num" resultType="com.dsu2021.pj.entity.Card">
+	<select id="getCardByCard_num" resultType="shop.younghk37.domain.entity.Card">
 		SELECT * FROM card WHERE card_num = #{card_num};
 	</select>
 	
-	<select id="getLatestOrderByUserNum" resultType="com.dsu2021.pj.entity.Order">
+	<select id="getLatestOrderByUserNum" resultType="shop.younghk37.domain.entity.Order">
 		SELECT * FROM `order` WHERE user_num = #{user_num} ORDER BY order_num desc limit 0,1;
 	</select>
 	
-	<select id = "getOrderList" resultType="com.dsu2021.pj.entity.Order">
+	<select id = "getOrderList" resultType="shop.younghk37.domain.entity.Order">
 		SELECT * FROM `order` WHERE user_num = #{user_num};
 	</select>
 	
-	<select id = "getBookOrderByOrderNum" resultType="com.dsu2021.pj.entity.BookOrder">
+	<select id = "getBookOrderByOrderNum" resultType="shop.younghk37.domain.entity.BookOrder">
 		SELECT * FROM `book_order` WHERE order_num = #{order_num};
 	</select>
 	
-	<select id = "getUserByUserNum" resultType="com.dsu2021.pj.entity.User">
+	<select id = "getUserByUserNum" resultType="shop.younghk37.domain.entity.User">
 		SELECT * FROM `user` WHERE user_num = #{user_num};
 	</select>
 	
-	<select id = "getCouponUserByUserNum" resultType="com.dsu2021.pj.entity.CouponUser">
+	<select id = "getCouponUserByUserNum" resultType="shop.younghk37.domain.entity.CouponUser">
 		SELECT * FROM `coupon_user` WHERE user_num = #{user_num};
 	</select>
 		<!-- INSERT -->
