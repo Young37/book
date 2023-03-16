@@ -21,7 +21,7 @@ import shop.younghk37.domain.entity.Card;
 import shop.younghk37.domain.entity.Cart;
 import shop.younghk37.domain.entity.Order;
 import shop.younghk37.domain.entity.User;
-import shop.younghk37.application.service.UserService;
+import shop.younghk37.application.UserService;
 
 @Controller
 public class UserController {

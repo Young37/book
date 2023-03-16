@@ -1,10 +1,11 @@
-package shop.younghk37.application.service;
+package shop.younghk37.application.impl;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import shop.younghk37.application.UserService;
 import shop.younghk37.domain.repository.UserRepository;
 import shop.younghk37.presentation.dto.UserDTO.AddBookReq;
 import shop.younghk37.presentation.dto.UserDTO.ModifyBookReq;
@@ -20,7 +21,7 @@ import shop.younghk37.domain.entity.Order;
 import shop.younghk37.domain.entity.User;
 
 @Service
-public class UserService {
+public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private UserRepository userRepository;
